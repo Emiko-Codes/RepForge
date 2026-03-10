@@ -1,0 +1,76 @@
+Your workflow from now on
+From now on whenever you change code:
+1️⃣ Save files
+Run git status
+
+
+2️⃣ Run
+git add .
+
+3️⃣ Commit
+git commit -m "describe what you changed"
+
+Example:
+git commit -m "added workout logging UI"
+
+4️⃣ Push
+git push
+
+
+
+One more Useful Command: 
+git log
+
+shows your project history.
+
+Run: 
+git log
+
+Example:
+
+commit 81ab23
+Added workout logging
+
+commit 12b89f
+Initial commit
+
+This lets you see every change you've made.
+
+5 GIT COMMANDS TO REMEMBER: 
+git status
+git add .
+git commit -m "message"
+git push
+git pull
+
+Those alone cover 90% of Git usage.
+
+For switching between your laptops: 
+On your Mac
+When you finish coding:
+
+git add .
+git commit -m "describe changes"
+git push
+
+Example:
+git add .
+git commit -m "added workout entry form"
+git push
+
+
+On your other laptop
+Before you start coding there, run:
+git pull
+That downloads the newest version from GitHub.
+So your normal cross-device workflow become:
+
+Mac: code → commit → push
+Other laptop: pull → code → commit → push
+Mac again: pull
+
+
+The most important rule
+Always do this on whichever laptop you are about to use:
+git pull
+before you start coding.
