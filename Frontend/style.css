@@ -1,0 +1,47 @@
+body {
+    margin: 0; /* Browsers add default spacing around the page. This removes it.*/
+    font-family: Arial, sans-serif; /* sets the page font*/
+    background-color: #f4f4f4; 
+}
+
+.page { /* This is your main content container*/
+    max-width: 900px; /* Kepps the contnet from getting too wide*/
+    margin: 0 auto; /* centers it horizontally*/
+    padding: 20px; /* Stops content form touvhing the edges*/
+}
+.header{
+    display: flex; /*Makes the header a flex ontainer*/
+    justify-content: space-between;/*pushes the left, center and right groups apart*/
+    align-items: centre;/*Vertically lines them up*/
+    background-color: white;/*Makes the header look like a card(change this later)*/
+    padding: 16px 20px;/*adds inner spacing*/
+    border-radius: 12px;/*rounds the corners of the header*/
+    margin-bottom: 20px;/* addsspace below the header */
+
+}
+.header-buttons{ /*flex container for the save and finish buttons*/
+    display: flex;
+    gap: 10px;
+}
+.header h1, /*This means select any h1, h2, or p that is inside. header */
+.header h2, /* and apply margin: 0 to it*/
+.header p{
+    margin: 0;
+}
+.summary{
+    background-color: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+.summary h2{
+    margin-top: 0;
+}
+.summary-stats {
+display: flex;
+gap: 30px;
+justify-content: space-between;
+align-items: centre;
+padding: 16px 20px;
+flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next line*/
+}

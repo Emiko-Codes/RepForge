@@ -1,18 +1,37 @@
 <!Doctype html>
+
 <html lang = "en"> <!-- This tells the browser and screen users the language used -->
     <head>
     
         <meta charset = "UTF 8"> <!-- This allows input of special characters like é ñ ✓ °-->
-        <meta name = "viewport" content = "width=devicewidth">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0"> <!-- This allows for the webpage to fit to scale on a mobile device and initial scale allows for the webpage to not be zoomed in when you load it-->
         <title> Workout Logger</title>
-
+        <link rel ="stylesheet" href= "style.css" />
     </head>
-    <body>
-        <h1>
-            Workout Logger 
-        </h1>
-        <h2>
-            Workout Summary commit trial 2
-        </h2>
+    <body>                     <!--class = "page" allows you to style the whole page container in CSS-->
+        <main class = "page"> <!--We use <main> because this is the main content of the page a-->
+            <header class= "header">
+                <div class="header-left">
+                    <h2>Workout Logger</h2>
+                    <p> March 9, 2026</p>                   
+                </div>
+                <div class ="header-centre">
+                    <h2>Push Day</h2>
+                </div>
+                <div class="header-right">
+                    <button>Save</button>
+                    <button>Finish</button>
+                    <p>Duration: 42m</p>
+                </div>
+            </header>
+            <section class= "summary">
+                <h2>Workout Summary</h2>
+                <div class="summary-stats">
+                    <p>Exercises: 4<p>
+                    <p>Sets: 16</p>
+                    <p>Notes: Feeling Strong</p> 
+                </div>
+            </section>
+        </main>
     </body>
 </html>
