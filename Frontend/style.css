@@ -45,3 +45,37 @@ align-items: centre;
 padding: 16px 20px;
 flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next line*/
 }
+
+.exercise-card {
+    background-color: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom:20px;
+}
+.exercise-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.exercise-info h3, 
+.exercise-info p{
+    margin: o;
+}
+.exercise-tools {
+    display:flex;
+    gap: 10px;
+    justify-content: right;
+    align-items: center;
+}
+.sets-table{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;  
+
+}
+.exercise-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -2,7 +2,6 @@
 
 <html lang = "en"> <!-- This tells the browser and screen users the language used -->
     <head>
-    
         <meta charset = "UTF 8"> <!-- This allows input of special characters like é ñ ✓ °-->
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0"> <!-- This allows for the webpage to fit to scale on a mobile device and initial scale allows for the webpage to not be zoomed in when you load it-->
         <title> Workout Logger</title>
@@ -32,6 +31,57 @@
                     <p>Notes: Feeling Strong</p> 
                 </div>
             </section>
+            <article class="exercise-card">
+                <div class ="excercise-top">
+                    <div class="exercise-info">
+                        <h3>Bench Press</h3>
+                        <p>Chest * Barbell</p>
+                    </div>
+                    <div class="exercise-tools">
+                        <button>Timer</button>
+                        <button>...</button>
+                    </div>
+                </div>
+                <table class="sets-table">
+                    <thead>
+                       <tr>
+                        <th>Set Weight</th>
+                        <th>Weight</th>
+                        <th>Reps</th>
+                        <th>RPE</th>
+                        <th>Done</th>
+                       </tr>
+                    </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>  <!-- Means Data Cell -->
+                        <td>134</td>
+                        <td>8</td>
+                        <td>8</td>
+                        <td><input type = "checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>135</td>
+                        <td>8</td>
+                        <td>8</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>140</td>
+                        <td>6</td>
+                        <td>9</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+                </tbody>
+                </table>
+                <div class="exercise-actions">
+                    <button>Add Set</button>
+                    <button>Notes</button>
+                    <button>Previous Performance</button>
+                </div>
+            </article>
         </main>
     </body>
 </html>
