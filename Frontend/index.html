@@ -6,8 +6,29 @@
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0"> <!-- This allows for the webpage to fit to scale on a mobile device and initial scale allows for the webpage to not be zoomed in when you load it-->
         <title> Workout Logger</title>
         <link rel ="stylesheet" href= "style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
-    <body>                     <!--class = "page" allows you to style the whole page container in CSS-->
+    <body>   
+        <div class ="sidebar-layout"> 
+          <aside class="sidebar"> <!--Aside is used for sidebars-->
+                <nav class="icons"> <!--wrap the icon buttons using nav-->
+                    <div class ="icons"> 
+                    <button class="icon-button">
+                        <i class="fa-solid fa-house"></i>
+                    </button>
+                    <button class="icon-button">
+                        <i class="fa-solid fa-house"></i>
+                    </button>
+                    <button class="icon-button">
+                        <i class="fa-solid fa-house"></i>
+                    </button>
+                    <button class="icon-button">
+                        <i class="fa-solid fa-house"></i>
+                    </button>
+                </div>
+                </nav>
+            </aside>  
+                       <!--class = "page" allows you to style the whole page container in CSS-->
         <main class = "page"> <!--We use <main> because this is the main content of the page a-->
             <header class= "header">
                 <div class="header-left">
@@ -87,6 +108,8 @@
                 <button>Save</button>
                 <button>Finish</button>
                 </div>
+          
         </main>
+        </div>
     </body>
 </html>

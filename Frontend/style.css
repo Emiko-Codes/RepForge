@@ -5,16 +5,31 @@ body {
 }
 
 .page { /* This is your main content container*/
-    max-width: 900px; /* Kepps the contnet from getting too wide*/
-    margin: 0 auto; /* centers it horizontally*/
+    flex: 1;
+     /* Kepps the contnet from getting too wide*/
+     /* centers it horizontally*/
     padding: 20px; /* Stops content form touvhing the edges*/
     padding-bottom: 100px; /*That way your content does not hide behind the bottom bar.
  */
+ 
+    
+
+ /* margin:
+Space outside an element 
+    Padding
+    Space inside an element
+    gap: 
+    Space between flex items or grid items:
+;*/
+}
+ div{
+color:#183153;
 }
 button{
     padding: 10px 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #185353; 
     border-radius: 10px;
+    color: #183153;
 
 }
 .header{
@@ -35,7 +50,9 @@ button{
 .header h2, /* and apply margin: 0 to it*/
 .header p{
     margin: 0;
+    color:#183153;
 }
+
 .summary{
     background-color: white;
     padding: 16px 20px;
@@ -44,6 +61,7 @@ button{
 }
 .summary h2{
     margin-top: 0;
+    color:#183153;
 }
 .summary-stats {
 display: flex;
@@ -52,7 +70,9 @@ justify-content: space-between;
 align-items: centre;
 padding: 16px 20px;
 flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next line*/
+
 }
+
 
 .exercise-card {
     background-color: white;
@@ -85,6 +105,8 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
     padding: 10px; /* Adds space inside each cell*/
     text-align: left;/*Keeps tables aligned consistently*/
     border-bottom: 1px solid #ddd; /* cretaes row separation*/
+    color:#183153;
+
 }
 .sets-table th{
     font-weight: bold;
@@ -109,4 +131,28 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
   justify-content: center;
   gap: 16px;
   border-top: 1px solid #ddd;
+}
+.sidebar-layout{
+    display: flex;
+  min-height: 100vh
+
+}
+.sidebar{
+   width: 80px;
+   min-width: 80px; /*👉 min-width prevents it from shrinking and causing weird spacing.*/
+   background-color: white;
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+
+}
+.icons{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap:130px;
+   padding-top: 20px;
+}
+.icon-button:hover{
+    color: grey;
 }
