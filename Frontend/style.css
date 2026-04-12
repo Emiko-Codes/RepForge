@@ -53,11 +53,12 @@ button{
     color:#183153;
 }
 
-.summary{
+.summary h2{
     background-color: white;
     padding: 16px 20px;
     border-radius: 12px;
     margin-bottom: 20px;
+    align-items: center;
 }
 .summary h2{
     margin-top: 0;
@@ -96,6 +97,11 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
     flex-wrap: wrap;
     margin-top: 16px;
 }
+.exercise-tools button:hover{
+    background-color:#040b14;
+    color:white;
+    transition: 120ms;
+}
 .sets-table{
     width: 100%; /*Makes the table stretch across the card.*/
     border-collapse: collpase;/*Makes borders cleaner instead of separated.*/
@@ -115,6 +121,11 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.exercise-actions button:hover{
+    background-color:#040b14;
+    color:white;
+    transition: 120ms;
 }
 .bottom-bar{
     background-color: white;
@@ -154,5 +165,12 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
    padding-top: 20px;
 }
 .icon-button:hover{
-    color: grey;
+    background-color: #040b14;
+    color: white;
+    transition: 120ms;
+}
+.action-buttons button:hover{
+    background-color: #040b14;
+    color: white;
+    transition: 120ms;
 }
