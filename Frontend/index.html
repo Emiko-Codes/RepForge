@@ -2,7 +2,7 @@
 
 <html lang = "en"> <!-- This tells the browser and screen users the language used -->
     <head>
-        <meta charset = "UTF 8"> <!-- This allows input of special characters like é ñ ✓ °-->
+        <meta charset = "UTF-8"> <!-- This allows input of special characters like é ñ ✓ °-->
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0"> <!-- This allows for the webpage to fit to scale on a mobile device and initial scale allows for the webpage to not be zoomed in when you load it-->
         <title> Workout Logger</title>
         <link rel ="stylesheet" href= "style.css" />
@@ -30,7 +30,8 @@
             </aside>  
                        <!--class = "page" allows you to style the whole page container in CSS-->
         <main class = "page"> <!--We use <main> because this is the main content of the page a-->
-            <header class= "header">
+            <div class="page-inner">
+                <header class= "header">
                 <div class="header-left">
                     <h2>Workout Logger</h2>
                     <p> March 9, 2026</p>                   
@@ -40,27 +41,21 @@
                 </div>
                 <div class="header-right">
                     <p>Duration: 42m</p>
+                    <button class="app-btn">Add Exercise</button>
+                    <button class="app-btn">Save</button>
+                    <button class="app-btn">Finish</button>
                 </div>
-            </header>
-            <section class= "summary">
-                <h2>Workout Summary</h2>
-                <div class="summary-stats">
-                    <p>Exercises: 4<p>
-                    <p>Sets: 16</p>
-                    <p>Notes: Feeling Strong</p> 
-                </div>
-            </section>
-            <article class="exercise-card">
-                <div class ="excercise-top">
-                    <div class="exercise-info">
-                        <h3>Bench Press</h3>
-                        <p>Chest * Barbell</p>
-                    </div>
-                    <div class="exercise-tools">
-                        <button>Timer</button>
-                        <button>...</button>
+                </header>
+             <article class="exercise-card">
+                <div class ="ex-top">
+                    <h3>Bench Press</h3>
+                    <div class="exercise-info"> 
+                        <button class="app-btn">Start</button>
+                        <button class="app-btn">...</button>
                     </div>
                 </div>
+                <p class = "exercise-tag">Chest * Barbell</p>
+
                 <table class="sets-table">
                     <thead>
                        <tr>
@@ -96,18 +91,19 @@
                 </tbody>
                 </table>
                 <div class="exercise-actions">
-                    <button>Add Set</button>
-                    <button>Notes</button>
-                    <button>Previous Performance</button>
+                    <button class="app-btn">Add Set</button>
+                   
                 </div>
-            </article>
-                <div class="bottom-bar">
-                    <div class="action-buttons">
-                        <button>Add Exercise</button>
-                        <button>Save</button>
-                        <button>Finish</button>
-                    </div>
+              </article>
+               <section class= "summary">
+                <h2>Workout Summary</h2>
+                <div class="summary-stats">
+                    <p>Exercises: 4</p>
+                    <p>Sets: 16</p>
+                    <p>Notes: Feeling Strong</p> 
                 </div>
+             </section>
+            </div>
         </main>
         </div>
     </body>

@@ -1,7 +1,8 @@
 body {
     margin: 0; /* Browsers add default spacing around the page. This removes it.*/
     font-family: Arial, sans-serif; /* sets the page font*/
-    background-color: #f4f4f4; 
+    background-color: rgb(230, 228, 228);
+    
 }
 
 .page { /* This is your main content container*/
@@ -9,18 +10,10 @@ body {
      /* Kepps the contnet from getting too wide*/
      /* centers it horizontally*/
     padding: 20px; /* Stops content form touvhing the edges*/
-    padding-bottom: 100px; /*That way your content does not hide behind the bottom bar.
- */
- 
-    
-
- /* margin:
-Space outside an element 
-    Padding
-    Space inside an element
-    gap: 
-    Space between flex items or grid items:
-;*/
+    padding-bottom: 100px; /*That way your content does not hide behind the bottom bar */
+}
+.page-inner{
+  
 }
  div{
 color:#183153;
@@ -32,6 +25,17 @@ button{
     color: #183153;
 
 }
+.app-btn {
+    height: 38px;
+    padding: 0 16px;
+    border: 1px solid #2f6f73;
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    color: #143d6b;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
 .header{
     display: flex; /*Makes the header a flex ontainer*/
     justify-content: space-between;/*pushes the left, center and right groups apart*/
@@ -42,6 +46,14 @@ button{
     margin-bottom: 20px;/* addsspace below the header */
 
 }
+.header-right p{
+    padding-left: 140px;
+}
+.header-right button:hover{
+    transition: 120;
+    background-color: #040b14;
+    color: white;
+}
 .header-buttons{ /*flex container for the save and finish buttons*/
     display: flex;
     gap: 10px;
@@ -51,6 +63,13 @@ button{
 .header p{
     margin: 0;
     color:#183153;
+}
+.summary{
+    background-color: white;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);/*first 0 = no horizontal shadow shift
+4px = shadow moves down 4 pixels
+14px = blur amount, so the shadow looks soft instead of sharp
+rgba(0, 0, 0, 0.06) = black shadow with very low opacity*/
 }
 
 .summary h2{
@@ -78,25 +97,31 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
 .exercise-card {
     background-color: white;
     padding: 16px 20px;
-    border-radius: 12px;
+    border-radius: 16px;
     margin-bottom:20px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    
 }
-.exercise-top{
+.ex-top{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+}
+.exercise-info button:hover{
+    transition: 120;
+    background-color: #040b14;
+    color:white;
+
+
+}
+.exercise-info{
+    display: flex;
+    gap: 8px;
 }
 .exercise-info h3, 
 .exercise-info p{
     margin: o;
 }
-.exercise-tools {
-    display:flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 16px;
-}
+
 .exercise-tools button:hover{
     background-color:#040b14;
     color:white;
@@ -105,6 +130,7 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
 .sets-table{
     width: 100%; /*Makes the table stretch across the card.*/
     border-collapse: collpase;/*Makes borders cleaner instead of separated.*/
+    margin-top:16px;
 }
 .sets-table th,
 .sets-table td{
@@ -112,6 +138,8 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
     text-align: left;/*Keeps tables aligned consistently*/
     border-bottom: 1px solid #ddd; /* cretaes row separation*/
     color:#183153;
+    font-size: 14px;
+    padding: 12px 10px;
 
 }
 .sets-table th{
@@ -126,6 +154,9 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
     background-color:#040b14;
     color:white;
     transition: 120ms;
+}
+.exercise-actions button{
+    margin-left: auto;
 }
 .bottom-bar{
     background-color: white;
@@ -151,6 +182,7 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
 .sidebar{
    width: 80px;
    min-width: 80px; /*👉 min-width prevents it from shrinking and causing weird spacing.*/
+   flex-shrink: 0;/*do not let this flex item shrink smaller when space gets tight.*/
    background-color: white;
    height: 100vh;
    display: flex;
@@ -169,8 +201,4 @@ flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next li
     color: white;
     transition: 120ms;
 }
-.action-buttons button:hover{
-    background-color: #040b14;
-    color: white;
-    transition: 120ms;
-}
+

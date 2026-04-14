@@ -1,0 +1,47 @@
+1. What JavaScript actually is
+
+You already have:
+
+HTML = structure
+CSS = style
+JavaScript = behavior and logic
+
+So for a workout tracker:
+
+HTML makes the form, buttons, headings, cards
+CSS makes it look nice
+JavaScript makes things happen:
+adding an exercise
+saving a workout
+counting sets
+showing totals
+removing an item
+responding when a button is clicked
+
+React is built on top of JavaScript, so if JavaScript feels confusing, React will too.
+
+2. Think of JavaScript as “values + logic + actions”
+
+Most beginner JavaScript is just these 3 ideas:
+
+Values
+
+Data like:
+
+"Bench Press"
+
+3
+true
+Logic
+
+Rules like:
+
+if reps are greater than 0, save the set
+if the exercise list is empty, show “No exercises yet”
+Actions
+
+Things the program does:
+
+run a function
+update a value
+respond to a click
