@@ -34,16 +34,16 @@
                 <header class= "header">
                 <div class="header-left">
                     <h2>Workout Logger</h2>
-                    <p> March 9, 2026</p>                   
+                    <p id ="currentDate"> March 9, 2026</p>                   
                 </div>
                 <div class ="header-centre">
-                    <h2>Push Day</h2>
+                    <h2 id ="workoutTitle">Push Day</h2>
                 </div>
                 <div class="header-right">
-                    <p>Duration: 42m</p>
-                    <button class="app-btn">Add Exercise</button>
-                    <button class="app-btn">Save</button>
-                    <button class="app-btn">Finish</button>
+                    <p>Duration: <span id ="workoutDuration"></span>42m</p>
+                    <button id="addExerciseButton">Add Exercise</button>
+                    <button id="savebutton">Save</button>
+                    <button id="finishButton">Finish</button>
                 </div>
                 </header>
              <article class="exercise-card">
@@ -98,11 +98,12 @@
                <section class= "summary">
                 <h2>Workout Summary</h2>
                 <div class="summary-stats">
-                    <p>Exercises: 4</p>
-                    <p>Sets: 16</p>
+                    <p>Exercises: <span id="exreciseCount"></span> 4</p>
+                    <p>Sets: <span id = "setsDone"></span> 16</p>
                     <p>Notes: Feeling Strong</p> 
                 </div>
              </section>
+             <section id ="exerciseList"></section>
             </div>
         </main>
         </div>
