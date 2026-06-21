@@ -1,111 +1,68 @@
-<!Doctype html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workout Logger</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="sidebar-layout">
+      <aside class="sidebar">
+        <nav class="icons" aria-label="Workout navigation">
+          <button class="icon-button active" type="button" data-nav="top" aria-label="Go to top" title="Top">
+            <i class="fa-solid fa-house"></i>
+          </button>
+          <button class="icon-button" type="button" data-nav="workout" aria-label="Go to exercises" title="Exercises">
+            <i class="fa-solid fa-dumbbell"></i>
+          </button>
+          <button class="icon-button" type="button" data-nav="summary" aria-label="Go to summary" title="Summary">
+            <i class="fa-solid fa-chart-simple"></i>
+          </button>
+          <button class="icon-button" type="button" data-nav="reset" aria-label="Reset workout" title="Reset workout">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+        </nav>
+      </aside>
 
-<html lang = "en"> <!-- This tells the browser and screen users the language used -->
-    <head>
-        <meta charset = "UTF-8"> <!-- This allows input of special characters like é ñ ✓ °-->
-        <meta name = "viewport" content = "width=device-width, initial-scale=1.0"> <!-- This allows for the webpage to fit to scale on a mobile device and initial scale allows for the webpage to not be zoomed in when you load it-->
-        <title> Workout Logger</title>
-        <link rel ="stylesheet" href= "style.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    </head>
-    <body>   
-        <div class ="sidebar-layout"> 
-          <aside class="sidebar"> <!--Aside is used for sidebars-->
-                <nav class="icons"> <!--wrap the icon buttons using nav-->
-                    <div class ="icons"> 
-                    <button class="icon-button">
-                        <i class="fa-solid fa-house"></i>
-                    </button>
-                    <button class="icon-button">
-                        <i class="fa-solid fa-house"></i>
-                    </button>
-                    <button class="icon-button">
-                        <i class="fa-solid fa-house"></i>
-                    </button>
-                    <button class="icon-button">
-                        <i class="fa-solid fa-house"></i>
-                    </button>
-                </div>
-                </nav>
-            </aside>  
-                       <!--class = "page" allows you to style the whole page container in CSS-->
-        <main class = "page"> <!--We use <main> because this is the main content of the page a-->
-            <div class="page-inner">
-                <header class= "header">
-                <div class="header-left">
-                    <h2>Workout Logger</h2>
-                    <p id ="currentDate"> March 9, 2026</p>                   
-                </div>
-                <div class ="header-centre">
-                    <h2 id ="workoutTitle">Push Day</h2>
-                </div>
-                <div class="header-right">
-                    <p>Duration: <span id ="workoutDuration"></span>42m</p>
-                    <button id="addExerciseButton">Add Exercise</button>
-                    <button id="savebutton">Save</button>
-                    <button id="finishButton">Finish</button>
-                </div>
-                </header>
-             <article class="exercise-card">
-                <div class ="ex-top">
-                    <h3>Bench Press</h3>
-                    <div class="exercise-info"> 
-                        <button class="app-btn">Start</button>
-                        <button class="app-btn">...</button>
-                    </div>
-                </div>
-                <p class = "exercise-tag">Chest * Barbell</p>
-
-                <table class="sets-table">
-                    <thead>
-                       <tr>
-                        <th>Set </th>
-                        <th>Weight</th>
-                        <th>Reps</th>
-                        <th>RPE</th>
-                        <th>Done</th>
-                       </tr>
-                    </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>  <!-- Means Data Cell -->
-                        <td><input type="number" value="134"/></td>
-                        <td><input type="number" value="134"/></td>
-                        <td><input type="number" value="134"/></td>
-                        <td><input type = "checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><input type="number" value="134"/></td>
-                        <td><input type="number" value="134"/></td>
-                        <td><input type="number" value="134"/></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td><input type="number" value="134"/></td>
-                        <td><input type="number" value="134"/></td>
-                        <td><input type="number" value="134"/></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                </tbody>
-                </table>
-                <div class="exercise-actions">
-                    <button class="app-btn">Add Set</button>
-                   
-                </div>
-              </article>
-               <section class= "summary">
-                <h2>Workout Summary</h2>
-                <div class="summary-stats">
-                    <p>Exercises: <span id="exreciseCount"></span> 4</p>
-                    <p>Sets: <span id = "setsDone"></span> 16</p>
-                    <p>Notes: Feeling Strong</p> 
-                </div>
-             </section>
-             <section id ="exerciseList"></section>
+      <main class="page" id="top">
+        <div class="page-inner">
+          <header class="header">
+            <div class="header-left">
+              <h2>Workout Logger</h2>
+              <p id="currentDate"></p>
             </div>
-        </main>
+
+            <div class="header-centre">
+              <h1 id="workoutTitle"></h1>
+              <p id="feedbackMessage" aria-live="polite"></p>
+            </div>
+
+            <div class="header-right">
+              <p>Duration: <span id="workoutDuration"></span></p>
+              <div class="header-buttons">
+                <button id="addExerciseBtn" type="button">Add Exercise</button>
+                <button id="saveWorkoutBtn" type="button">Save</button>
+                <button id="finishButton" type="button">Finish</button>
+              </div>
+            </div>
+          </header>
+
+          <section id="exerciseList" aria-label="Exercises"></section>
+
+          <section class="summary" id="summary">
+            <h2>Workout Summary</h2>
+            <div class="summary-stats">
+              <p>Exercises: <span id="exerciseCount">0</span></p>
+              <p>Sets: <span id="setCount">0</span></p>
+              <p>Done: <span id="doneCount">0</span></p>
+              <p>Notes: <span id="notesText">Feeling Strong</span></p>
+            </div>
+          </section>
         </div>
-    </body>
+      </main>
+    </div>
+  </body>
 </html>

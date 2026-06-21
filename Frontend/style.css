@@ -1,204 +1,303 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
-    margin: 0; /* Browsers add default spacing around the page. This removes it.*/
-    font-family: Arial, sans-serif; /* sets the page font*/
-    background-color: rgb(230, 228, 228);
-    
-}
-
-.page { /* This is your main content container*/
-    flex: 1;
-     /* Kepps the contnet from getting too wide*/
-     /* centers it horizontally*/
-    padding: 20px; /* Stops content form touvhing the edges*/
-    padding-bottom: 100px; /*That way your content does not hide behind the bottom bar */
-}
-.page-inner{
-  
-}
- div{
-color:#183153;
-}
-button{
-    padding: 10px 14px;
-    border: 1px solid #185353; 
-    border-radius: 10px;
-    color: #183153;
-
-}
-.app-btn {
-    height: 38px;
-    padding: 0 16px;
-    border: 1px solid #2f6f73;
-    border-radius: 10px;
-    background-color: #f7f7f7;
-    color: #143d6b;
-    font-size: 13px;
+    margin: 0;
     font-family: Arial, sans-serif;
-    cursor: pointer;
+    background-color: rgb(230, 228, 228);
+    color: #183153;
 }
-.header{
-    display: flex; /*Makes the header a flex ontainer*/
-    justify-content: space-between;/*pushes the left, center and right groups apart*/
-    align-items: centre;/*Vertically lines them up*/
-    background-color: white;/*Makes the header look like a card(change this later)*/
-    padding: 16px 20px;/*adds inner spacing*/
-    border-radius: 12px;/*rounds the corners of the header*/
-    margin-bottom: 20px;/* addsspace below the header */
 
+button,
+input,
+select {
+    font: inherit;
 }
-.header-right p{
-    padding-left: 140px;
+
+button {
+    padding: 10px 14px;
+    border: 1px solid #185353;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+    color: #183153;
+    cursor: pointer;
+    transition: background-color 120ms, color 120ms, border-color 120ms;
 }
-.header-right button:hover{
-    transition: 120;
+
+button:hover {
     background-color: #040b14;
+    border-color: #040b14;
     color: white;
 }
-.header-buttons{ /*flex container for the save and finish buttons*/
+
+.sidebar-layout {
     display: flex;
-    gap: 10px;
-}
-.header h1, /*This means select any h1, h2, or p that is inside. header */
-.header h2, /* and apply margin: 0 to it*/
-.header p{
-    margin: 0;
-    color:#183153;
-}
-.summary{
-    background-color: white;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);/*first 0 = no horizontal shadow shift
-4px = shadow moves down 4 pixels
-14px = blur amount, so the shadow looks soft instead of sharp
-rgba(0, 0, 0, 0.06) = black shadow with very low opacity*/
+    min-height: 100vh;
 }
 
-.summary h2{
+.sidebar {
+    width: 80px;
+    min-width: 80px;
+    flex-shrink: 0;
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding-top: 20px;
+}
+
+.icon-button {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+}
+
+.icon-button.active {
+    background-color: #183153;
+    border-color: #183153;
+    color: white;
+}
+
+.page {
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 100px;
+}
+
+.page-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
     background-color: white;
     padding: 16px 20px;
-    border-radius: 12px;
+    border-radius: 8px;
     margin-bottom: 20px;
-    align-items: center;
-}
-.summary h2{
-    margin-top: 0;
-    color:#183153;
-}
-.summary-stats {
-display: flex;
-gap: 30px;
-justify-content: space-between;
-align-items: centre;
-padding: 16px 20px;
-flex-wrap: wrap; /* if the screen gets too narrow, the items wrap to the next line*/
-
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
+.header h1,
+.header h2,
+.header p {
+    margin: 0;
+}
+
+.header-centre {
+    text-align: center;
+}
+
+.header-centre h1 {
+    font-size: 24px;
+}
+
+#feedbackMessage {
+    min-height: 20px;
+    margin-top: 4px;
+    color: #2f6f73;
+    font-size: 14px;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.app-btn {
+    min-height: 38px;
+    padding: 0 16px;
+    border-color: #2f6f73;
+    color: #143d6b;
+    font-size: 13px;
+}
 
 .exercise-card {
     background-color: white;
     padding: 16px 20px;
-    border-radius: 16px;
-    margin-bottom:20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-    
+    border-left: 4px solid transparent;
 }
-.ex-top{
+
+.exercise-card.active-exercise {
+    border-left-color: #2f6f73;
+}
+
+.ex-top {
     display: flex;
     justify-content: space-between;
+    gap: 16px;
 }
-.exercise-info button:hover{
-    transition: 120;
-    background-color: #040b14;
-    color:white;
 
-
+.ex-top h3 {
+    margin: 0;
 }
-.exercise-info{
+
+.exercise-info {
     display: flex;
     gap: 8px;
-}
-.exercise-info h3, 
-.exercise-info p{
-    margin: o;
+    align-items: flex-start;
 }
 
-.exercise-tools button:hover{
-    background-color:#040b14;
-    color:white;
-    transition: 120ms;
+.exercise-selectors {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
 }
-.sets-table{
-    width: 100%; /*Makes the table stretch across the card.*/
-    border-collapse: collpase;/*Makes borders cleaner instead of separated.*/
-    margin-top:16px;
-}
-.sets-table th,
-.sets-table td{
-    padding: 10px; /* Adds space inside each cell*/
-    text-align: left;/*Keeps tables aligned consistently*/
-    border-bottom: 1px solid #ddd; /* cretaes row separation*/
-    color:#183153;
-    font-size: 14px;
-    padding: 12px 10px;
 
-}
-.sets-table th{
+.exercise-selectors label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #5d6f82;
+    font-size: 13px;
     font-weight: bold;
 }
-.exercise-actions{
+
+.exercise-select {
+    min-width: 180px;
+    padding: 9px 34px 9px 10px;
+    border: 1px solid #cad4dd;
+    border-radius: 6px;
+    background-color: white;
+    color: #183153;
+    cursor: pointer;
+}
+
+.exercise-select:focus,
+.sets-table input:focus {
+    outline: 2px solid rgba(47, 111, 115, 0.25);
+    border-color: #2f6f73;
+}
+
+.sets-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.sets-table th,
+.sets-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #183153;
+    font-size: 14px;
+}
+
+.sets-table th {
+    font-weight: bold;
+}
+
+.sets-table input[type="number"] {
+    width: 100%;
+    max-width: 110px;
+    padding: 8px;
+    border: 1px solid #cad4dd;
+    border-radius: 6px;
+    color: #183153;
+}
+
+.sets-table input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+.exercise-actions {
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 14px;
+}
+
+.summary {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.summary h2 {
+    margin: 0;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5eaf0;
+}
+
+.summary-stats {
+    display: flex;
+    gap: 30px;
     justify-content: space-between;
     align-items: center;
-}
-.exercise-actions button:hover{
-    background-color:#040b14;
-    color:white;
-    transition: 120ms;
-}
-.exercise-actions button{
-    margin-left: auto;
-}
-.bottom-bar{
-    background-color: white;
-
-}
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: white;
-  padding: 12px 20px;
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  border-top: 1px solid #ddd;
-}
-.sidebar-layout{
-    display: flex;
-  min-height: 100vh
-
-}
-.sidebar{
-   width: 80px;
-   min-width: 80px; /*👉 min-width prevents it from shrinking and causing weird spacing.*/
-   flex-shrink: 0;/*do not let this flex item shrink smaller when space gets tight.*/
-   background-color: white;
-   height: 100vh;
-   display: flex;
-   justify-content: center;
-
-}
-.icons{
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   gap:130px;
-   padding-top: 20px;
-}
-.icon-button:hover{
-    background-color: #040b14;
-    color: white;
-    transition: 120ms;
+    padding: 16px 20px;
+    flex-wrap: wrap;
 }
 
+.summary-stats p {
+    margin: 0;
+}
+
+@media (max-width: 760px) {
+    .sidebar-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+        min-width: 0;
+    }
+
+    .icons {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .header,
+    .ex-top {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-centre {
+        text-align: left;
+    }
+
+    .header-right {
+        align-items: stretch;
+    }
+
+    .header-buttons,
+    .exercise-info,
+    .exercise-selectors {
+        justify-content: flex-start;
+    }
+
+    .exercise-select {
+        width: 100%;
+    }
+}
