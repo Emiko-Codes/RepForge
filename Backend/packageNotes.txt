@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "module", // so thus syntax is not necessary as this is modern javascript: const express = require("express"); .. const cors = require("cors");
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -20,5 +20,9 @@
   "devDependencies": {
     "nodemon": "^3.1.14"
   }
-}  
 
+  // normal workflow of starting the js server: mkdir backend
+//cd backend
+//npm init -y
+//npm install express cors dotenv
+//npm install --save-dev nodemon

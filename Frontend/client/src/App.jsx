@@ -1,5 +1,6 @@
-import { useState } from "react"; // This brings in React’s useState hook, which lets your component remember/change data.
+import { useRef, useState, useMemo } from 'react'; // This brings in React’s useState hook, which lets your component remember/change data.
 import "./App.css";
+
 
 const muscleGroups = [
   "Chest",
@@ -51,9 +52,9 @@ const defaultWorkout = {
       sets: [
         {
           id: crypto.randomUUID(),
-          weight: 135,
-          reps: 8,
-          rpe: 8,
+          weight: "",
+          reps: "",
+          rpe: "",
           done: false
         }
       ]
@@ -65,7 +66,30 @@ function App() {
 const [workout, setWorkout] = useState(defaultWorkout);
 const [message, setMessage] = useState("React state is working."); // // React state: stores the current workout and message; use setWorkout/setMessage to update the page when the user makes changes.
 const [selectedWorkoutDay, setSelectedWorkoutDay] = useState(workoutDay[0]);
+const summaryRef = useRef(null);
+const topRef = useRef(null);
+const summary = useMemo(() => { // useMemo so summary only updates when the workout is updated.
+  let totalSets = 0;
+  let doneSets = 0;
+  let totalVolume = 0;
 
+  workout.exercises.forEach((exercise) => {
+    exercise.sets.forEach((set) => {
+      totalSets++;
+      if (set.done) {
+        doneSets++;
+        totalVolume += Number(set.weight) * Number(set.reps);
+      }
+    });
+  });
+
+  return {
+    exercises: workout.exercises.length,
+    totalSets,
+    doneSets,
+    totalVolume
+  };
+}, [workout]); //Remember this summary, and only update it when the workout data changes.(syntax for useMemo) 
 
 function addExercise() {
   const newExercise = {
@@ -76,9 +100,9 @@ function addExercise() {
     sets: [
       {
         id: crypto.randomUUID(),
-        weight: 0,
-        reps: 0,
-        rpe: 0,
+        weight: "",
+        reps: "",
+        rpe: "",
         done: false
       }
     ]
@@ -125,9 +149,9 @@ function addSet(exerciseId) {
 
     const newSet = {
       id: crypto.randomUUID(),
-      weight: 0,
-      reps: 0,
-      rpe: 0,
+      weight: "",
+      reps: "",
+      rpe: "",
       done: false
     };
 
@@ -144,6 +168,35 @@ function addSet(exerciseId) {
 
   setMessage("Set added.");
 }
+
+function updateSet(exerciseId, setId, field, value) {
+  const updatedExercises = workout.exercises.map((exercise) => {
+    if (exercise.id !== exerciseId) {
+      return exercise;
+    }
+
+    const updatedSets = exercise.sets.map((set) => {
+      if (set.id !== setId) {
+        return set;  // if we loop through the sets and the set id that we loop through does not match with the SetId that is an input parameter, then skip it.
+      }
+
+      return {
+        ...set,
+        [field]: field === "done" ? value : value === "" ? "" : Number(value) //if it is the checkbox, keep true/falseif the input is empty, keep it emptyotherwise, convert it to a number
+      };
+    });
+
+    return {
+      ...exercise,
+      sets: updatedSets
+    };
+  });
+
+  setWorkout({
+    ...workout,
+    exercises: updatedExercises
+  });
+}
 function deleteExercise(exerciseId) {
   const updatedExercises = workout.exercises.filter((exercise) => { // loops through all the exercises and returns all the exercise id's except the one passed into the function
     return exercise.id !== exerciseId;
@@ -155,6 +208,57 @@ function deleteExercise(exerciseId) {
   });
 
   setMessage("Exercise deleted.");
+}
+function deleteSet(exerciseId, setId) {
+  const updatedExercises = workout.exercises.map((exercise) => {
+    if (exercise.id !== exerciseId) {
+      return exercise;
+    }
+
+    const updatedSets = exercise.sets.filter((set) => {
+      return set.id !== setId;
+    });
+
+    return {
+      ...exercise,
+      sets: updatedSets
+    };
+  });
+
+  setWorkout({
+    ...workout,
+    exercises: updatedExercises
+  });
+
+  setMessage("Set deleted.");
+}
+function summaryScroll(){
+  summaryRef.current?.scrollIntoView({
+    behavior: "smooth",
+    block : "start"
+});
+}
+function topScroll (){
+  topRef.current?.scrollIntoView({
+    behavior : "smooth",
+    block: "start"
+  });
+}
+function saveToBrowser(){
+  localStorage.setItem("reactWorkout", JSON.stringify(workout)); //JSON.Stringify is the syntax for saving react files to the browser
+  setMessage("workout saved in browser");
+}
+function loadFromBrowser(){
+  const savedWorkout = localStorage.getItem("reactWorkout");
+
+  if (!savedWorkout){
+    setMessage("No workout Saved")
+    return{
+      ...workout
+    }
+  }
+  setWorkout(JSON.parse(savedWorkout));// JSON.parse is used to change from string to a JSON readable file.
+  setMessage("Workout loaded from browser");
 }
   return (
     <div className="sidebar-layout">
@@ -168,7 +272,11 @@ function deleteExercise(exerciseId) {
             🏋️
           </button>
 
-          <button className="icon-button" type="button" title="Summary">
+          <button 
+          className="icon-button" 
+          type="button" 
+          title="Summary"
+          onClick = {summaryScroll} >
             📊
           </button>
 
@@ -180,7 +288,7 @@ function deleteExercise(exerciseId) {
 
       <main className="page">
         <div className="page-inner">
-          <header className="header">
+          <header className="header" ref = {topRef}>
             <div className="header-left">
               <h2>RepForge</h2>
               <p>{workout.date}</p>
@@ -214,7 +322,8 @@ function deleteExercise(exerciseId) {
                 <button type="button" onClick={addExercise}>
                     Add Exercise
                 </button>
-                <button type="button">Save</button>
+                <button type="button" onClick = {saveToBrowser}>Save</button>
+                <button type ="button" onClick = {loadFromBrowser}>load</button>
                 <button type="button">Finish</button>
               </div>
             </div>
@@ -289,6 +398,7 @@ function deleteExercise(exerciseId) {
             <th>Reps</th>
             <th>RPE</th>
             <th>Done</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -297,16 +407,49 @@ function deleteExercise(exerciseId) {
             <tr key={set.id}>
               <td>{index + 1}</td>
               <td>
-                <input type="number" value={set.weight} readOnly />
+                <input
+                  type="number"
+                  value={set.weight}
+                  onChange={(event) =>
+                    updateSet(exercise.id, set.id, "weight", event.target.value) // event stores the value that was unterd by the user. It is then passed into the updateSet function
+                  }
+                />
               </td>
               <td>
-                <input type="number" value={set.reps} readOnly />
+                <input
+                  type="number"
+                  value={set.reps}
+                  onChange={(event) =>
+                    updateSet(exercise.id, set.id, "reps", event.target.value)
+                  }
+                />
               </td>
               <td>
-                <input type="number" value={set.rpe} readOnly />
+                <input
+                  type="number"
+                  value={set.rpe}
+                  onChange={(event) =>
+                    updateSet(exercise.id, set.id, "rpe", event.target.value)
+                  }
+                />
               </td>
               <td>
-                <input type="checkbox" checked={set.done} readOnly />
+                <input
+                  type="checkbox"
+                  checked={set.done}
+                  onChange={(event) =>
+                    updateSet(exercise.id, set.id, "done", event.target.checked)
+                  }
+                />
+              </td>
+              <td>
+                <button
+                  className="app-btn"
+                  type="button"
+                  onClick={() => deleteSet(exercise.id, set.id)}
+                >
+                  Delete Set
+                </button>
               </td>
             </tr>
           ))}
@@ -326,15 +469,22 @@ function deleteExercise(exerciseId) {
   ))}
 </section>
 
-          <section className="summary">
+          <section  className="summary" ref = {summaryRef}>
             <h2>Workout Summary</h2>
 
             <div className="summary-stats">
-              <p>Exercises: 1</p>
-              <p>Sets: 1</p>
-              <p>Done: 0</p>
-              <p>Notes: Feeling Strong</p>
+              <p>Exercises: {summary.exercises}</p>
+              <p>Sets: {summary.totalSets}</p>
+              <p>Done: {summary.doneSets}</p>
+              <p>Volume: {summary.totalVolume} lbs</p>
             </div>
+          </section>
+          <section>
+            <button className = "app-btn" type = "button"
+            onClick = {topScroll} >
+              ⬆
+
+            </button>
           </section>
         </div>
       </main>
