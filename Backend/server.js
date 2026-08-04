@@ -29,6 +29,18 @@ app.get("/api/health", (req, res) => { // /api/health is the route’s path.
   });
 });
 
+app.post("/api/workouts/test", (req, res) =>{
+    const workout = req.body
+    console.log("workout recieved from react:")
+    console.log("workout");
+
+    res.status(201).json({ //status code 201 means the request succeeded and a new resource was created or accepted as newly created.
+        message: "workout received by backend", 
+        workout
+
+    });
+});
+
 app.listen(PORT, () => {   //is a callback function that runs once the server has successfully started listening.
   console.log(`Server is running on http://localhost:${PORT}`); //Start the backend on the selected port, and once it starts successfully, print its local address in the terminal.
 });
