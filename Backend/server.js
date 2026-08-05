@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";//CORS tells browsers which frontends may read the server’s responses.
 import dotenv from "dotenv"; //Dotenv manages the server’s settings.
+import { pool } from "./db.js"// ONE MAJOR ERROR FACE WAS NOT ADDINF THE . BEFOR THE / WHICH CAUSED THE BACKEND SERVER TO CRASH 
 
 
 dotenv.config(); // Loads variables from your .env file into Node’s environment so the server can access configuration values through process.env.
@@ -22,13 +23,56 @@ app.get("/", (req, res) =>{
     });
 });
 
-app.get("/api/health", (req, res) => { // /api/health is the route’s path.
-  res.json({
-    status: "ok",
-    app: "RepForge API" //identifies which application sent the response.
-  });
+app.get("/api/health", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW() AS current_time");
+
+    res.json({
+      status: "ok",
+      database: "connected",
+      time: result.rows[0].current_time
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      status: "error",
+      message: "Database connection failed."
+    });
+  }
 });
 
+app.post("/api/workouts/basic", async (req, res) => {
+  try {
+    const { title, date, workoutDay, notes } = req.body;
+
+    if (!title || !date) {
+      return res.status(400).json({
+        message: "Title and date are required."
+      });
+    }
+
+    const result = await pool.query(
+      `
+      INSERT INTO workouts (title, workout_date, workout_day, notes)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+      `,
+      [title, date, workoutDay, notes]
+    );
+
+    res.status(201).json({
+      message: "Workout title/date saved.",
+      workout: result.rows[0]
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Could not save workout."
+    });
+  }
+});
 app.post("/api/workouts/test", (req, res) =>{
     const workout = req.body
     console.log("workout recieved from react:")
