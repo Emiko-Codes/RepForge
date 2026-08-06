@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: rgb(230, 228, 228);
+  background-color: whitesmoke;
   color: #183153;
 }
 
@@ -53,33 +53,75 @@ button:hover {
 }
 
 .sidebar {
-  width: 80px;
-  min-width: 80px;
-  flex-shrink: 0;
-  background-color: white;
-  min-height: 100vh;
+  width: 236px; /* Sets the sidebar width */
+  min-width: 236px; /* Prevents the sidebar from becoming narrower */
+  flex-shrink: 0; /* Stops Flexbox from shrinking the sidebar */
+  background: linear-gradient(180deg, #071321 0%, #0b1d31 100%); /* Dark blue top-to-bottom gradient */
+  color: white; /* Makes text and icons white by default */
+  min-height: 100vh; /* Makes the sidebar at least the full screen height */
+  display: flex; /* Turns the sidebar into a Flexbox container */
+  flex-direction: column; /* Places the sidebar sections vertically */
+  padding: 32px 18px 28px; /* Top: 32px, sides: 18px, bottom: 28px */
+  box-shadow: 8px 0 24px rgba(7, 19, 33, 0.18); /* Adds a soft shadow on the right */
+}
+
+.sidebar-brand {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 48px;
+}
+
+.sidebar-brand svg {
+  color: #3d82ff;
+  stroke-width: 2.5;
 }
 
 .icons {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.sidebar-link {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
   align-items: center;
-  gap: 28px;
-  padding-top: 20px;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #e8eef7;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  box-shadow: none;
 }
 
-.icon-button {
-  width: 42px;
-  height: 42px;
-  padding: 0;
+.sidebar-link svg {
+  flex: 0 0 auto;
+  stroke-width: 2.25;
 }
 
-.icon-button.active {
-  background-color: #183153;
-  border-color: #183153;
+.sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
   color: white;
+}
+
+.sidebar-link.active {
+  background: linear-gradient(135deg, #1d75ff 0%, #1556e8 100%);
+  border-color: #2f83ff;
+  color: white;
+  box-shadow: 0 10px 22px rgba(21, 86, 232, 0.32);
 }
 
 .page {
@@ -95,11 +137,11 @@ button:hover {
 
 .header {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  grid-template-columns: minmax(160px, 1fr) minmax(230px, auto) minmax(280px, 1fr);
+  align-items: start;
   gap: 20px;
   background-color: white;
-  padding: 16px 20px;
+  padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
@@ -117,6 +159,10 @@ button:hover {
 .header h2,
 .header p {
   margin: 0;
+}
+
+.header-left {
+  align-self: center;
 }
 
 .header-centre {
@@ -216,7 +262,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 10px;
+  gap: 12px;
 }
 
 .header-buttons {
@@ -224,6 +270,7 @@ button:hover {
   gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  max-width: 430px;
 }
 
 .header-buttons button {
@@ -392,14 +439,26 @@ button:hover {
     width: 100%;
     min-height: auto;
     min-width: 0;
+    padding: 18px;
+  }
+
+  .sidebar-brand {
+    margin-bottom: 18px;
+    font-size: 22px;
   }
 
   .icons {
     width: 100%;
     flex-direction: row;
-    justify-content: center;
-    padding: 12px;
-    gap: 12px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+  .sidebar-link {
+    width: auto;
+    min-width: max-content;
+    padding: 0 14px;
   }
 
   .header,

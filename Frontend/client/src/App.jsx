@@ -1,5 +1,13 @@
 import { useRef, useState, useMemo } from 'react'; // This brings in React’s useState hook, which lets your component remember/change data.
 import "./App.css";
+import {
+  House,
+  CirclePlus,
+  History,
+  UserRound,
+  Dumbbell,
+}from "lucide-react";
+
 
 
 const muscleGroups = [
@@ -301,38 +309,78 @@ async function saveToBackend() { // Creates an asynchronous function so it can w
     console.log(error); // Prints the actual error in the browser console for debugging.
     setMessage("Could not connect to backend."); // Updates the React message when the frontend cannot complete the connection.
   }
+
+ 
+}
+ function convertDisplayDateToInputDate(displayDate) {
+  const parsedDate = new Date(displayDate);
+  return parsedDate.toISOString().split("T")[0];
+}
+
+async function saveFullWorkoutToBackend() {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ...workout,
+        date: convertDisplayDateToInputDate(workout.date),
+        workoutDay: selectedWorkoutDay
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setMessage(data.message || "Could not save workout.");
+      return;
+    }
+
+    setMessage(`Workout saved. ID: ${data.workoutId}`);
+  } catch (error) {
+    console.log(error);
+    setMessage("Could not connect to backend.");
+  }
 }
   return (
     <div className="sidebar-layout">
       <aside className="sidebar">
+        <div className="sidebar-brand">
+          <Dumbbell size={32} />
+          <span>RepForge</span>
+        </div>
+
         <nav className="icons" aria-label="Workout navigation">
-          <button className="icon-button active" type="button" title="Top">
-            🏠
+          <button className="sidebar-link" type="button" title="Dashboard" onClick={topScroll}>
+            <House size={24} />
+            <span>Dashboard</span>
           </button>
 
-          <button className="icon-button" type="button" title="Exercises">
-            🏋️
+          <button className="sidebar-link" type="button" title="Log Workout">
+            <CirclePlus size={24} />
+            <span>Log Workout</span>
           </button>
 
-          <button 
-          className="icon-button" 
-          type="button" 
-          title="Summary"
-          onClick = {summaryScroll} >
-            📊
+          <button className="sidebar-link active" type="button" title="History" >
+            <History size={24} />
+            <span>History</span>
           </button>
 
-          <button className="icon-button" type="button" title="Reset workout">
-            ↩️
+          <button className="sidebar-link" type="button" title="Profile">
+            <UserRound size={24} />
+            <span>Profile</span>
           </button>
         </nav>
+
       </aside>
 
       <main className="page">
         <div className="page-inner">
           <header className="header" ref = {topRef}>
             <div className="header-left">
-              <h2>RepForge</h2>
+              
               <p>{workout.date}</p>
             </div>
 
@@ -367,7 +415,7 @@ async function saveToBackend() { // Creates an asynchronous function so it can w
                 <button type="button" onClick = {saveToBrowser}>Save</button>
                 <button type="button" onClick = {saveToBackend}>Save to Backend</button>
                 <button type ="button" onClick = {loadFromBrowser}>load</button>
-                <button type="button">Finish</button>
+                <button type="button" onClick ={saveFullWorkoutToBackend}>Finish</button>
               </div>
             </div>
           </header>
