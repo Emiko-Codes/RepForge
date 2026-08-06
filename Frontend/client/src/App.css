@@ -75,7 +75,22 @@ button:hover {
   line-height: 1;
   margin-bottom: 48px;
 }
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 9px;
+  color: #e8edf4;
+  text-decoration: none;
+  background: transparent;
+}
 
+.sidebar-link.active {
+  color: white;
+  background: #236cec;
+}
 .sidebar-brand svg {
   color: #3d82ff;
   stroke-width: 2.5;
