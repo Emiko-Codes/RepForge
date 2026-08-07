@@ -443,12 +443,39 @@ button:hover {
   color: #183153;
   background: transparent;
   margin-bottom: 8px;
+   display:flex;
+  text-align: left;
+  font-size: 24px;
 }
 
 .exercise-name-input:focus {
   outline: 2px solid rgba(47, 111, 115, 0.25);
   border-radius: 6px;
 }
+.workout-summary-footer{
+  display: flex;
+  text-align: left;
+  font-size: 24px;
+}
+.header-navs{
+ display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(230px, auto) minmax(280px, 1fr);
+  align-items: start;
+  gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+
+  gap:30px;
+}
+.page-align{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 
 @media (max-width: 760px) {
   .sidebar-layout {

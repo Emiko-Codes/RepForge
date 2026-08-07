@@ -104,8 +104,7 @@ function formatWorkoutDate(workoutDate) {
               </div>
               <Link
                 className="view-workout-button"
-                to={`/history/${workout.id}`}
-                
+                to={`/history/${workout.id}`}               
               >
                 View Workout
               </Link>

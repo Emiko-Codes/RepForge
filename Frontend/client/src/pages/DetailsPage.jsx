@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./DetailsPage.css";
-
+import{
+  CalendarDays,
+  BicepsFlexed,
+  CircleCheck,
+  CircleX,
+}from "lucide-react";
 function DetailsPage() {
   const { id } = useParams();
 
@@ -70,15 +75,25 @@ function DetailsPage() {
         </Link>
 
         <section className="workout-details-header">
-          <h1 className="details-day">{workout.workout_day}</h1>
+          <h1 className="details-day" style={{ color: "#17345c" }}>
+            {workout.workout_day}
+          </h1>
+        <div className="details-meta">
 
-          <p>{formatWorkoutDate(workout.workout_date)}</p>
-
-          {workout.notes && ( // conditional rendering that only displays <p> if workout.notes has a value
-            <p className="workout-details-notes">
-              {workout.notes}
-            </p>
+          <div className ="details-stat-symbol">
+            <CalendarDays size ={19} />
+            <span>{formatWorkoutDate(workout.workout_date)}</span>
+          </div>
+          <p className="separator">|</p>
+          <div className ="details-stat-symbol">
+            <BicepsFlexed size = {19} />
+            {workout.notes && ( // conditional rendering that only displays <p> if workout.notes has a value 
+              <span className="workout-details-notes">
+                {workout.notes}
+              </span>
           )}
+          </div>
+          </div>
         </section>
 
         <div className="exercise-details-list">
@@ -87,16 +102,32 @@ function DetailsPage() {
               className="exercise-details-card"
               key={exercise.id}
             >
-              <h2>{exercise.name}</h2>
+              <h2 className="details-name">{exercise.name}</h2>
 
               <div className="set-details-list">
-                {exercise.sets.map((set) => ( // Go through every set and display one paragraph for each set
-                  <p key={set.id}> 
-                    Set {set.set_order}:{" "}
-                    {set.weight ?? "—"} lbs ×{" "} 
-                    {set.reps ?? "—"} 
-                  </p>
-                ))}
+                 <table className="details-sets-table">
+                    <thead>
+                      <tr>
+                        <th>SET</th>
+                        <th>WEIGHT</th>
+                        <th>REPS</th>
+                        <th>RPE</th>
+                        <th>DONE</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {exercise.sets.map((set) => (
+                        <tr key={set.id}>
+                          <td>{set.set_order}</td>
+                          <td>{set.weight ?? "—"} lbs</td>
+                          <td>{set.reps ?? "—"}</td>
+                          <td>{set.rpe ?? "—"}</td>
+                          <td>{set.done ? <CircleCheck className="circlecheck-logo" size ={24} /> : <CircleX className="circlex-logo" size = {24} />}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
               </div>
             </article>
           ))}

@@ -333,16 +333,18 @@ async function saveFullWorkoutToBackend() {
 return (
   <main className="page">
     <div className="page-inner">
+      <div className="page-align">
       <header className="header" ref = {topRef}>
+        
+      </header>
+
+      <section className ="header-navs">
         <div className="header-left">
           <p>{workout.date}</p>
         </div>
 
         <div className="header-centre">
-          <h1 className="animated-title" aria-label={`${workout.title}. Train Hard.`}>
-            <span className="title-text title-first">{workout.title}</span>
-            <span className="title-text title-second">Train Hard</span>
-          </h1>
+          
           <label className="workout-day-picker">
             <span>Workout Day</span>
             <select
@@ -372,7 +374,8 @@ return (
             <button type="button" onClick ={saveFullWorkoutToBackend}>Finish</button>
           </div>
         </div>
-      </header>
+
+      </section>
 
       <section>
         {workout.exercises.map((exercise) => ( //That means React goes through every exercise inside: workout.exercises and automatically creates an exercise card for each one.
@@ -515,7 +518,7 @@ return (
       </section>
 
       <section  className="summary" ref = {summaryRef}>
-        <h2>Workout Summary</h2>
+        <h2 className="workout-summary-footer">Workout Summary</h2>
 
         <div className="summary-stats">
           <p>Exercises: {summary.exercises}</p>
@@ -531,6 +534,7 @@ return (
 
         </button>
       </section>
+      </div>
     </div>
   </main>
 );
