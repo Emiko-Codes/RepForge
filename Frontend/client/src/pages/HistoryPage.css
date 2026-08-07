@@ -1,10 +1,43 @@
+.history-date, 
+.history-notes{
+  font-size: 15px;
+  color: #68778d;
+  
+}
+
+.history-day{
+  color: #17345c;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+
+}
+.history-stat-symbol{
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 0;
+  color: #68778d;
+}
+.view-workout-button{
+  font-size: 13px;
+  margin-right: 0;
+  background: #236cec;
+  color: white;
+  padding: 10px 14px;
+  border: 1px solid #185353;
+  border-radius: 8px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  text-decoration: none;
+}
 .history-page{
   flex: 1;
   width: 100%;
+  padding: 40px 56px;
 }
 .history-page .page-inner {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 .history-list {
@@ -16,24 +49,49 @@
 
 .history-title{
   color:  #17345c;
-  margin-left: 0px;
+  margin-left: 0;
+  text-align: left;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-weight: 700;
   font-size: 46px;
+  
 }
 .top-message{
   color: #68778d;
-  margin-left: 30px;
+  text-align: left;
+  
+  padding-bottom: 20px;
 }
 .history-card {
   background: white;
   padding: 24px;
   border-radius: 12px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 90px 1fr 180px 160px 40px;
+  gap: 24px;
   flex-shrink: 0;
   flex-direction: row;
   align-items: center;
-  max-width: fit-content;
-  align-self: center;
-
+  justify-content: space-between;
+  width: 100%;
+}
+.history-card-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.history-card-main{
+  margin-left: 0;
+}
+.history-card-meta{
+  color:#68778d; 
+}
+.history-menu-button{
+  border: none;
+  background: white;
+}
+.history-menu-button:hover{
+  background: transparent;
+  border: none;
+  color: #183153;
 }

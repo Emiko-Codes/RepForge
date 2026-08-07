@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./HistoryPage.css";
+import { Link } from "react-router-dom";
 import {
   Dumbbell,
   CalendarDays,
@@ -58,32 +59,29 @@ function formatWorkoutDate(workoutDate) {
   return (
     <main className="history-page">
       <div className="page-inner">
-        <h1 class="history-title">Workout History</h1>
+        <h1 className="history-title">Workout History</h1>
 
         <p className="top-message">{message}</p>
 
         <div className="history-list">
           {history.map((workout) => (
             <article className="history-card" key={workout.id}>{/* Left blue icon box */}
+            
               <div className="history-card-icon">
                 <Dumbbell size={36} />
               </div>
 
               <div className="history-card-main">{/* Workout title, date, day and notes */}
-                <h2>{workout.title}</h2>
+                <h2 className = "history-day">{workout.workout_day}</h2>
 
                 <div className="history-card-meta">
                   <CalendarDays size={19} />
 
-                  <span>
+                  <span className = "history-date">
                     {formatWorkoutDate(workout.workout_date)}
                   </span>
 
-                  <span className="history-separator">•</span>
-
-                  <span className="history-day">
-                    {workout.workout_day}
-                  </span>
+                  
                 </div>
 
                 {workout.notes && (
@@ -91,32 +89,26 @@ function formatWorkoutDate(workoutDate) {
                     {workout.notes}
                   </p>
                 )}
+              
+            </div>
+           <div className="history-card-stats">
+                <div className = "history-stat-symbol">
+                  <Dumbbell size={19} />
+                  <span>{workout.exercise_count} exercises</span>
+                </div>
+
+                <div className = "history-stat-symbol">
+                  <Layers3 size={19} />
+                  <span>{workout.set_count} sets</span>
+                </div>
               </div>
-
-              {/* Add this section when the backend returns counts */}
-              {workout.exercise_count !== undefined &&
-                workout.set_count !== undefined && (
-                  <div className="history-card-stats">
-                    <div>
-                      <Dumbbell size={19} />
-                      <span>
-                        {workout.exercise_count} exercises
-                      </span>
-                    </div>
-
-                    <div>
-                      <Layers3 size={19} />
-                      <span>{workout.set_count} sets</span>
-                    </div>
-                  </div>
-                )}
-
-              <button
+              <Link
                 className="view-workout-button"
-                type="button"
+                to={`/history/${workout.id}`}
+                
               >
                 View Workout
-              </button>
+              </Link>
 
               <button
                 className="history-menu-button"

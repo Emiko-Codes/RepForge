@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   background-color: whitesmoke;
   color: #183153;
 }
@@ -50,6 +50,11 @@ button:hover {
 .sidebar-layout {
   display: flex;
   min-height: 100vh;
+}
+
+.route-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .sidebar {
