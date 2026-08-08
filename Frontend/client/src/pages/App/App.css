@@ -1,0 +1,633 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background-color: whitesmoke;
+  color: #183153;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  padding: 10px 14px;
+  border: 1px solid #185353;
+  border-radius: 8px;
+  background: #236cec;
+  color: white;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms, border-color 120ms;
+}
+
+button:hover {
+  background-color: #040b14;
+  border-color: #040b14;
+  color: white;
+}
+.sets-table input[type="number"] {
+  width: 100%;
+  max-width: 110px;
+  padding: 8px;
+  border: 1px solid #cad4dd;
+  border-radius: 6px;
+  color: #183153;
+  background-color: #f7f7f7;
+  transition: background-color 120ms, color 120ms, border-color 120ms;
+}
+
+.sets-table input[type="number"]:hover {
+  background-color: #040b14;
+  border-color: #040b14;
+  color: white;
+}
+
+.sidebar-layout {
+  /* Holds the sidebar and the page content side by side. */
+  display: flex;
+  min-height: 100vh;
+}
+
+.route-content {
+  /* Lets the main page area take up all remaining space beside the sidebar. */
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar {
+  width: 236px; /* Sets the sidebar width */
+  min-width: 236px; /* Prevents the sidebar from becoming narrower */
+  flex-shrink: 0; /* Stops Flexbox from shrinking the sidebar */
+  background: linear-gradient(180deg, #071321 0%, #0b1d31 100%); /* Dark blue top-to-bottom gradient */
+  color: white; /* Makes text and icons white by default */
+  min-height: 100vh; /* Makes the sidebar at least the full screen height */
+  display: flex; /* Turns the sidebar into a Flexbox container */
+  flex-direction: column; /* Places the sidebar sections vertically */
+  padding: 32px 18px 28px; /* Top: 32px, sides: 18px, bottom: 28px */
+  box-shadow: 8px 0 24px rgba(7, 19, 33, 0.18); /* Adds a soft shadow on the right */
+}
+
+.sidebar-brand {
+  /* Styles the RepForge logo row at the top of the sidebar. */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 48px;
+}
+.sidebar-link {
+  /* Base style for each sidebar navigation link. */
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 9px;
+  color: #e8edf4;
+  text-decoration: none;
+  background: transparent;
+}
+
+.sidebar-link.active {
+  /* First active-link rule. Some of this is overridden by the later active rule below. */
+  color: white;
+  background: #236cec;
+}
+.sidebar-brand svg {
+  /* Makes the brand dumbbell icon blue and slightly thicker. */
+  color: #3d82ff;
+  stroke-width: 2.5;
+}
+
+.icons {
+  /* Stacks all sidebar navigation links vertically with space between them. */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.sidebar-link {
+  /* Final sidebar link styling. Because this appears later, it overrides matching values above. */
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #e8eef7;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  box-shadow: none;
+}
+
+.sidebar-link svg {
+  /* Keeps icons from shrinking and gives them a consistent stroke thickness. */
+  flex: 0 0 auto;
+  stroke-width: 2.25;
+}
+
+.sidebar-link:hover {
+  /* Adds a subtle highlight when the user hovers over a sidebar link. */
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
+  color: white;
+}
+
+.sidebar-link.active {
+  /* Final active-link style for the current page in the sidebar. */
+  background: linear-gradient(135deg, #1d75ff 0%, #1556e8 100%);
+  border-color: #2f83ff;
+  color: white;
+  box-shadow: 0 10px 22px rgba(21, 86, 232, 0.32);
+}
+
+.page {
+  flex: 1;
+  padding: 20px;
+  padding-bottom: 100px;
+}
+
+.page-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* Push them toward opposite horizontal sides */
+  align-items: flex-start; /* Align them at the top vertically */
+  gap: 20px;
+  text-align: left;
+  margin-left: 0;
+  background: whitesmoke;
+  padding: 20px;
+}
+.title-text 
+{
+  color: #17345c;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 46px;
+}
+.title-subtext{
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #68778d;
+  font-size: 15px;
+}
+.header-navs-left h2,
+.header-navs-centre h1,
+.summary h2 {
+  color: #183153;
+  font-weight: 700;
+}
+    
+
+.header-navs-h1,
+.header-navs-h2,
+.header-navs-p {
+  margin: 0;
+}
+
+.header-navs-left {
+  display: flex;
+  align-self: center;
+  align-items: end;
+  gap: 20px;
+}
+
+.header-navs-centre {
+  justify-self: center;
+  text-align: center;
+}
+
+.header-navs-centre h1 {
+  font-size: 24px;
+}
+
+.animated-title {
+  display: inline-grid;
+  place-items: center;
+  min-width: 230px;
+  min-height: 34px;
+  transition: transform 160ms ease;
+}
+
+.animated-title:hover {
+  transform: scale(1.06);
+}
+
+.title-text {
+  grid-area: 1 / 1;
+}
+
+.title-first {
+  animation: fadeFirstTitle 5s ease-in-out infinite;
+}
+
+.title-second {
+  animation: fadeSecondTitle 5s ease-in-out infinite;
+}
+
+.workout-day-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  margin-top: 8px;
+  color: #5d6f82;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.workout-day-picker select {
+  min-width: 170px;
+  padding: 8px 32px 8px 10px;
+  border: 1px solid #cad4dd;
+  border-radius: 6px;
+  background-color: white;
+  color: #183153;
+  cursor: pointer;
+}
+
+.workout-day-picker select:focus {
+  outline: 2px solid rgba(47, 111, 115, 0.25);
+  border-color: #2f6f73;
+}
+.workout-date-ic{
+  font-size: 25px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+}
+.workout-day-picker{
+  display: flex;
+  align-items: left;
+}
+
+@keyframes fadeFirstTitle {
+  0%,
+  40%,
+  100% {
+    opacity: 1;
+  }
+
+  50%,
+  90% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeSecondTitle {
+  0%,
+  40%,
+  100% {
+    opacity: 0;
+  }
+
+  50%,
+  90% {
+    opacity: 1;
+  }
+}
+
+#feedbackMessage {
+  min-height: 20px;
+  margin-top: 4px;
+  color: #2f6f73;
+  font-size: 14px;
+}
+
+.header-navs-right {
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.header-navs-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 430px;
+}
+
+.header-navs-buttons button {
+  min-height: 38px;
+  padding: 0 16px;
+  border-color: #2f6f73;
+  color: white;
+  font-size: 13px;
+}
+
+.app-btn {
+  min-height: 38px;
+  padding: 0 16px;
+  border-color: #2f6f73;
+  color: white;
+  font-size: 13px;
+}
+
+.exercise-card {
+  background-color: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid transparent;
+}
+
+.exercise-card.active-exercise {
+  border-left-color: #2f6f73;
+}
+
+.ex-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ex-top h3 {
+  margin: 0;
+}
+
+.exercise-info {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.exercise-selectors {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.exercise-selectors label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #5d6f82;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.exercise-select {
+  min-width: 180px;
+  padding: 9px 34px 9px 10px;
+  border: 1px solid #cad4dd;
+  border-radius: 6px;
+  background-color: white;
+  color: #183153;
+  cursor: pointer;
+}
+
+.exercise-select:focus,
+.sets-table input:focus {
+  outline: 2px solid rgba(47, 111, 115, 0.25);
+  border-color: #2f6f73;
+}
+
+.sets-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.sets-table th,
+.sets-table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  color: #183153;
+  font-size: 14px;
+}
+
+.sets-table th {
+  font-weight: bold;
+}
+
+.sets-table input[type="number"] {
+  width: 100%;
+  max-width: 110px;
+  padding: 8px;
+  border: 1px solid #cad4dd;
+  border-radius: 6px;
+  color: #183153;
+}
+
+.sets-table input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.exercise-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.summary {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+
+.summary h2 {
+  margin: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5eaf0;
+}
+
+.summary-stats {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  flex-wrap: wrap;
+}
+
+.summary-stats p {
+  margin: 0;
+}
+
+.exercise-name-input {
+  border: none;
+  font-size: 20px;
+  font-weight: 700;
+  color: #183153;
+  background: transparent;
+  margin-bottom: 8px;
+   display:flex;
+  text-align: left;
+  font-size: 24px;
+}
+
+.exercise-name-input:focus {
+  outline: 2px solid rgba(47, 111, 115, 0.25);
+  border-radius: 6px;
+}
+.workout-summary-footer{
+  display: flex;
+  text-align: left;
+  font-size: 24px;
+}
+.header-navs{
+ display:flex;
+ justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+
+  gap:30px;
+}
+.page-align{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.welcome-info{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+}
+
+.start-workout-button {
+  display: inline-flex; /* makes the button act like a flex container so the content of it can be spaced out */
+  align-items: center;
+  gap: 10px;
+  background: #236cec;
+  font-size: 15px;
+  color: white;
+}
+.start-workout-button:hover{
+  background: #1f2d3d;
+}
+.summary-notes {
+  gap: 10px;
+  color: #183153;
+  font-size: 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.summary-notes span {
+  font-weight: 400;
+}
+
+.summary-notes textarea {
+  flex: 1;
+  width: auto;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: white;
+  color: #183153;
+  resize: vertical;
+  font-size: 14px;
+  display: inline-flex; /* makes the button act like a flex container so the content of it can be spaced out */
+  
+}
+
+.summary-notes textarea::placeholder {
+  color: #7b8794;
+ 
+}
+
+.summary-notes textarea:focus {
+  outline: 2px solid rgba(47, 111, 115, 0.25);
+  border-color: #2f6f73;
+}
+
+
+@media (max-width: 760px) {
+  .sidebar-layout {
+    /* On small screens, stack the sidebar above the page instead of beside it. */
+    flex-direction: column;
+  }
+
+  .sidebar {
+    /* Turns the sidebar into a shorter top bar on mobile. */
+    width: 100%;
+    min-height: auto;
+    min-width: 0;
+    padding: 18px;
+  }
+
+  .sidebar-brand {
+    /* Reduces the logo spacing and size on mobile. */
+    margin-bottom: 18px;
+    font-size: 22px;
+  }
+
+  .icons {
+    /* Places sidebar links in a horizontal scroll row on mobile. */
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+  .sidebar-link {
+    /* Lets each mobile nav link size itself to its text and icon. */
+    width: auto;
+    min-width: max-content;
+    padding: 0 14px;
+  }
+
+  .header,
+  .ex-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-centre {
+    text-align: left;
+  }
+
+  .workout-day-picker {
+    align-items: flex-start;
+  }
+
+  .header-right {
+    align-items: stretch;
+  }
+
+  .header-buttons,
+  .exercise-info,
+  .exercise-selectors {
+    justify-content: flex-start;
+  }
+
+  .exercise-select {
+    width: 100%;
+  }
+}
