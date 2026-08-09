@@ -16,6 +16,35 @@ const PORT = process.env.PORT || 5001;//Use the port provided by the environment
 process contains information and controls related to the running Node.js program.
 process.env is only the part of process that contains environment variables, which are usually configuration values.
 */
+function requireAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({
+      message: "Authorization header missing."
+    });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({
+      message: "Token missing."
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.userId = decoded.userId;
+
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      message: "Invalid or expired token."
+    });
+  }
+}
 app.post("/api/auth/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -128,6 +157,7 @@ app.post("/api/auth/signup", async (req, res) => {
     });
   }
 });
+  
 
 app.get("/", (req, res) =>{
     res.json({
@@ -154,7 +184,7 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-app.get("/api/workouts", async (req, res) =>{
+app.get("/api/workouts", requireAuth, async (req, res) =>{
   try{
     const result = await pool.query( // we are not doing SELECT * FROM workouts because in the future we do not want to ruturn for example private information stored in the workouts table as it is not needed
       `SELECT                      
@@ -166,12 +196,14 @@ app.get("/api/workouts", async (req, res) =>{
       w.created_at,
       COUNT(DISTINCT e.id)::int AS exercise_count, -- Count each exercise ID once, convert the count to an integer, and name it exercise_count.
       COUNT(s.id)::int AS set_count -- Count every set ID, convert the count to an integer, and name it set_count.
-      FROM workouts w -- Start with the workouts table and use w as its shorter name.     
+      FROM workouts w -- Start with the workouts table and use w as its shorter name.
+      WHERE user_id = $1     
       LEFT JOIN exercises e ON e.workout_id = w.id -- Connect each workout to exercises whose workout_id matches the workout ID, while keeping workouts with no exercises.
       LEFT JOIN sets s ON s.exercise_id = e.id -- Connect each exercise to sets whose exercise_id matches the exercise ID, while keeping exercises with no sets.
       GROUP BY w.id -- Put all joined rows with the same workout ID into one group so each workout gets separate counts.
       ORDER BY w.workout_date DESC, w.created_at DESC; -- Sort by newest workout date first, then newest creation time when dates match.  
       `
+      , [req.userId]
     );
 
     res.json({
@@ -306,7 +338,7 @@ app.post("/api/workouts/basic", async (req, res) => {
     });
   }
 });
-app.post("/api/workouts", async (req, res) => { // Runs when React sends a POST request to /api/workouts
+app.post("/api/workouts", requireAuth, async (req, res) => { // Runs when React sends a POST request to /api/workouts
   const client = await pool.connect(); // Borrows one PostgreSQL connection from the pool
 
   try {
@@ -328,11 +360,11 @@ app.post("/api/workouts", async (req, res) => { // Runs when React sends a POST 
 
     const workoutResult = await client.query(
       `
-      INSERT INTO workouts (title, workout_date, workout_day, notes)
+      INSERT INTO workouts (user_id,title, workout_date, workout_day, notes)
       VALUES ($1, $2, $3, $4)
       RETURNING *
       `,
-      [title, date, workoutDay, notes] // Supplies the values for $1, $2, $3 and $4
+      [req.user_Id,title, date, workoutDay, notes] // Supplies the values for $1, $2, $3 and $4
     );
 
     const savedWorkout = workoutResult.rows[0]; // Gets the newly saved workout and its generated ID
