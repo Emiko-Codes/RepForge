@@ -331,7 +331,8 @@ async function saveFullWorkoutToBackend() {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         ...workout,

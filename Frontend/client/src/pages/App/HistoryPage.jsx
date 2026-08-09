@@ -14,9 +14,14 @@ function HistoryPage() {
 
   async function loadWorkoutHistory() {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/workouts`
-      );
+      const token = localStorage.getItem("repforgeToken");
+      
+   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts`, {
+   method: "GET",
+   headers: {
+    Authorization: `Bearer ${token}` // used to confirm who the user is first before displaying the workout history
+    }
+});
 
       const data = await response.json();
 

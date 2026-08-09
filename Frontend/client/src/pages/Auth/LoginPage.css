@@ -6,7 +6,7 @@
     background: whitesmoke;
     width: 100%;
 }
-.page-inner{
+.login-page-inner{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -134,4 +134,7 @@
  .input-icon{
     color: #68778d;
     flex-shrink: 0;
+}
+.login-message{
+    color: red;
 }

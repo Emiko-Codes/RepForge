@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";//CORS tells browsers which frontends may read the server’s responses.
 import dotenv from "dotenv"; //Dotenv manages the server’s settings.
 import { pool } from "./db.js"// ONE MAJOR ERROR FACE WAS NOT ADDINF THE . BEFOR THE / WHICH CAUSED THE BACKEND SERVER TO CRASH 
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 dotenv.config(); // Loads variables from your .env file into Node’s environment so the server can access configuration values through process.env.
 
@@ -47,14 +48,14 @@ function requireAuth(req, res, next) {
 }
 app.post("/api/auth/signup", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, username } = req.body;
 
-    if (!email || !password) {
+    if (!email || !password || !username ) {
       return res.status(400).json({
-        message: "Email and password are required."
+        message: "Name email and password are required "
       });
     }
-
+    
     if (password.length < 8) {
       return res.status(400).json({
         message: "Password must be at least 8 characters."
@@ -76,11 +77,11 @@ app.post("/api/auth/signup", async (req, res) => {
 
     const result = await pool.query(
       `
-      INSERT INTO users (email, password_hash)
-      VALUES ($1, $2)
+      INSERT INTO users (email, password_hash, username)
+      VALUES ($1, $2, $3)
       RETURNING id, email, created_at
       `,
-      [email, passwordHash]
+      [email, passwordHash, username]
     );
 
     const user = result.rows[0];
@@ -110,7 +111,7 @@ app.post("/api/auth/signup", async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        message: "Email and password are required."
+        message: "Email and password are required"
       });
     }
 
@@ -121,7 +122,7 @@ app.post("/api/auth/signup", async (req, res) => {
 
     if (result.rows.length === 0) {
       return res.status(401).json({
-        message: "Invalid email or password."
+        message: "Invalid email or password"
       });
     }
 
@@ -131,7 +132,7 @@ app.post("/api/auth/signup", async (req, res) => {
 
     if (!passwordMatches) {
       return res.status(401).json({
-        message: "Invalid email or password."
+        message: "Invalid email or password"
       });
     }
 
@@ -153,7 +154,7 @@ app.post("/api/auth/signup", async (req, res) => {
     console.log(error);
 
     res.status(500).json({
-      message: "Could not log in."
+      message: "Could not log in"
     });
   }
 });
