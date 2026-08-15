@@ -21,7 +21,7 @@ function HistoryPage() {
    headers: {
     Authorization: `Bearer ${token}` // used to confirm who the user is first before displaying the workout history
     }
-});
+});1
 
       const data = await response.json();
 
@@ -58,7 +58,7 @@ function formatWorkoutDate(workoutDate) {
   return date.toLocaleDateString("en-US", { //This converts the Date object into formatted text.
     month: "long",   //These control how each dat should appeat
     day: "numeric",
-    year: "numeric",
+    year: "numeric",  
   });
 }
   return (

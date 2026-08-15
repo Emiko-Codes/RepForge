@@ -51,12 +51,18 @@ button:hover {
   /* Holds the sidebar and the page content side by side. */
   display: flex;
   min-height: 100vh;
+  overflow: hidden; /* Stops the whole page from scrolling */
 }
+
 
 .route-content {
   /* Lets the main page area take up all remaining space beside the sidebar. */
   flex: 1;
   min-width: 0;
+  height: 100vh;
+  overflow-y: auto; /* Only the page content scrolls */
+  
+
 }
 
 .sidebar {
@@ -70,6 +76,8 @@ button:hover {
   flex-direction: column; /* Places the sidebar sections vertically */
   padding: 32px 18px 28px; /* Top: 32px, sides: 18px, bottom: 28px */
   box-shadow: 8px 0 24px rgba(7, 19, 33, 0.18); /* Adds a soft shadow on the right */
+  overflow: hidden; /* Sidebar itself does not scroll */
+
 }
 
 .sidebar-brand {
@@ -162,7 +170,7 @@ button:hover {
 }
 
 .page-inner {
-  max-width: 1600px;
+  max-width: 1150px;
   margin: 0 auto;
 }
 
@@ -327,7 +335,7 @@ button:hover {
   max-width: 430px;
 }
 
-.header-navs-buttons button {
+.app-btn {
   min-height: 38px;
   padding: 0 16px;
   border-color: #2f6f73;
@@ -335,12 +343,57 @@ button:hover {
   font-size: 13px;
 }
 
-.app-btn {
-  min-height: 38px;
-  padding: 0 16px;
-  border-color: #2f6f73;
-  color: white;
-  font-size: 13px;
+.finish-workout-button,
+.workout-icon-button,
+.workout-delete-button,
+.workout-text-button {
+  /* These buttons have their own style so they do not inherit the global blue button design. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  background: transparent;
+  color: #071321;
+  box-shadow: none;
+}
+
+.finish-workout-button {
+  min-height: 40px;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.header-navs-buttons .workout-icon-button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  color: #071321;
+}
+
+.workout-delete-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.workout-text-button {
+  min-height: 42px;
+  padding: 0 12px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.finish-workout-button:hover,
+.workout-icon-button:hover,
+.workout-delete-button:hover,
+.workout-text-button:hover {
+  /* currentColor makes the icon follow the same hover color as the button text. */
+  background: transparent;
+  color: #0057ff;
 }
 
 .exercise-card {
@@ -444,6 +497,36 @@ button:hover {
   margin-top: 14px;
 }
 
+.add-exercise-area {
+  display: flex;
+  justify-content: center;
+  margin: -2px 0 12px;
+}
+
+.scroll-top-area {
+  display: flex;
+  justify-content: center;
+}
+
+.scroll-top-button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #071321;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.scroll-top-button:hover {
+  background: transparent;
+  color: #0057ff;
+}
+
 .summary {
   background-color: white;
   border-radius: 8px;
@@ -516,17 +599,6 @@ button:hover {
   
 }
 
-.start-workout-button {
-  display: inline-flex; /* makes the button act like a flex container so the content of it can be spaced out */
-  align-items: center;
-  gap: 10px;
-  background: #236cec;
-  font-size: 15px;
-  color: white;
-}
-.start-workout-button:hover{
-  background: #1f2d3d;
-}
 .summary-notes {
   gap: 10px;
   color: #183153;

@@ -1,3 +1,248 @@
+.profile-page{
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    /* Locks this page to one screen height so the main page itself does not scroll. */
+    height: 100vh;
+    padding: 28px 58px;
+    background: whitesmoke;
+    color: #071321;
+    /* Hides overflow from the page; the child flex layout must fit inside this height. */
+    overflow: hidden;
+}
+.profile-page-inner{
+    width: 100%;
+    /* Fills the height from .profile-page so the cards can share the available space. */
+    height: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.profile-top-message{
+    /* Header keeps its natural height instead of stretching. */
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 .profile-title{
     color: #17345c;
+    font-size: 40px;
+    line-height: 1;
+    font-weight: 800;
+    margin: 0;
+}
+.profile-submessage{
+    color: #294264;
+    font-size: 17px;
+    margin: 8px 0 6px;
+}
+.profile-overview-card,
+.profile-settings-card,
+.profile-logout-card{
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+.profile-overview-card{
+    /* Overview card keeps its natural height so only the settings card flexes. */
+    flex: 0 0 auto;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    padding: 20px 30px;
+}
+.profile-avatar{
+    width: 96px;
+    height: 96px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #f0f1f4 0%, #e4e6ea 100%);
+    color: #747c8b;
+}
+.profile-avatar svg{
+    stroke-width: 1.7;
+}
+.profile-overview-text{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.profile-overview-text h2,
+.profile-settings-card h2,
+.profile-logout-card h2{
+    color: #071321;
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 800;
+    margin: 0;
+}
+.profile-overview-text h3{
+    color: #071321;
+    font-size: 32px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 10px 0 0;
+}
+.profile-overview-text p{
+    color: #294264;
+    font-size: 17px;
+    line-height: 1.2;
+    margin: 0;
+}
+.profile-settings-card,
+.profile-logout-card{
+    padding: 20px 30px;
+}
+.profile-settings-card{
+    /* This card grows/shrinks to use the leftover space between overview and logout. */
+    flex: 1 1 auto;
+    /* Allows this flex child to shrink inside the 100vh page instead of forcing scroll. */
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+.profile-logout-card{
+    /* Logout card keeps its natural height at the bottom. */
+    flex: 0 0 auto;
+}
+.profile-settings-card h2,
+.profile-logout-card h2{
+    margin-bottom: 14px;
+}
+.profile-settings-list{
+    /* Fills the available height inside the settings card. */
+    flex: 1;
+    /* Same flexbox trick: let the list shrink instead of overflowing. */
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+.logout-header,
+.settings-header{
+    text-align: left;
+}
+.profile-setting-row{
+    width: 100%;
+    /* Each settings row takes an equal share of the settings list height. */
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr) 28px;
+    align-items: center;
+    gap: 18px;
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid #e1e6ee;
+    border-radius: 0;
+    background: transparent;
+    color: #071321;
+    text-align: left;
+    box-shadow: none;
+}
+.profile-setting-row:last-child{
+    border-bottom: none;
+}
+.profile-setting-row:hover{
+    background: transparent;
+    border-color: #e1e6ee;
+    color: #071321;
+}
+.profile-setting-row > svg{
+    justify-self: end;
+    color: #294264;
+    stroke-width: 2.3;
+}
+.profile-setting-icon{
+    width: 42px;
+    height: 42px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 8px;
+    background: #f2f4f8;
+    color: #071321;
+}
+.profile-setting-icon svg{
+    stroke-width: 2.2;
+}
+.profile-setting-text{
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+}
+.profile-setting-text span{
+    color: #071321;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 800;
+}
+.profile-setting-text small{
+    color: #294264;
+    font-size: 16px;
+    line-height: 1.2;
+}
+.profile-logout-row{
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+.profile-logout-left{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.profile-logout-button{
+    min-width: 136px;
+    min-height: 44px;
+    padding: 0 24px;
+    border: 1px solid #004cff;
+    border-radius: 8px;
+    background: white;
+    color: #004cff;
+    font-weight: 600;
+    box-shadow: none;
+}
+.profile-logout-button:hover{
+    background: #eef4ff;
+    border-color: #004cff;
+    color: #0038d8;
+}
+
+@media (max-width: 900px){
+    .profile-page{
+        padding: 18px 22px;
+    }
+
+    .profile-overview-card{
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 640px){
+    .profile-title{
+        font-size: 34px;
+    }
+
+    .profile-overview-card{
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .profile-logout-row{
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .profile-logout-button{
+        width: 100%;
+    }
 }

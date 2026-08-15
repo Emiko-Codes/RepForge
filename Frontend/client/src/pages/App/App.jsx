@@ -82,7 +82,7 @@ Order of what happens when the app is opened:
 3. App returns its JSX
 4. The sidebar is displayed using<Sidebar /> 
 5. <Routes> reads the URL
-6. The URL is "/history"
-7. The "/history" route matches
-8. <HistoryPage /> is displayed inside route-content
+6. The URL is "/login"
+7. The "/login" route matches
+8. <LoginPage/> is displayed inside route-content
 */

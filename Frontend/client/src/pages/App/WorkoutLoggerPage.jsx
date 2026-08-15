@@ -2,6 +2,10 @@ import { useRef, useState, useMemo, useEffect } from 'react'; // This brings in 
 import {
   CirclePlus,
   CalendarDays,
+  CheckCircle2,
+  Plus,
+  Trash2,
+  CircleArrowUp,
 }from "lucide-react";
 
 
@@ -328,6 +332,8 @@ async function saveToBackend() { // Creates an asynchronous function so it can w
 
 async function saveFullWorkoutToBackend() {
   try {
+    const token = localStorage.getItem("repforgeToken");
+
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts`, {
       method: "POST",
       headers: {
@@ -373,9 +379,13 @@ return (
             </div>  
             <div className="start-workout-button-area">
               
-              <button className="start-workout-button" type="button" onClick ={startTimer}>
-                <CirclePlus size ={13}/>
-                Start Workout
+              <button
+                className="finish-workout-button"
+                type="button"
+                onClick ={timerRunning ? finishWorkout : startTimer}
+              >
+                {timerRunning ? <CheckCircle2 size ={20}/> : <CirclePlus size ={20}/>}
+                {timerRunning ? "Finish Workout" : "Start Workout"}
               </button>
             </div>
           
@@ -409,11 +419,16 @@ return (
           <p>Duration: {duration}s</p>
 
           <div className="header-navs-buttons">
-            <button type="button" onClick={addExercise}>
-              Add Exercise
+            <button
+              className="workout-icon-button"
+              type="button"
+              onClick={addExercise}
+              aria-label="Add exercise"
+            >
+              <Plus size={27}/>
             </button>
             
-            <button type="button" onClick ={finishWorkout}>Finish</button>
+            
           </div>
         </div>
 
@@ -471,11 +486,12 @@ return (
 
               <div className="exercise-info">
                 <button
-                  className = "app-btn"
+                  className = "workout-delete-button"
                   type = "button"
                   onClick = {() => deleteExercise(exercise.id)}
+                  aria-label="Delete exercise"
                 >
-                  Delete
+                  <Trash2 size={24}/>
                 </button>
               </div>
             </div>
@@ -534,11 +550,12 @@ return (
                     </td>
                     <td>
                       <button
-                        className="app-btn"
+                        className="workout-delete-button"
                         type="button"
                         onClick={() => deleteSet(exercise.id, set.id)}
+                        aria-label="Delete set"
                       >
-                        Delete Set
+                        <Trash2 size={24}/>
                       </button>
                     </td>
                   </tr>
@@ -548,16 +565,18 @@ return (
 
             <div className="exercise-actions">
               <button
-                className = "app-btn"
+                className = "workout-text-button"
                 type = "button"
                 onClick = {() => addSet(exercise.id)}
               >
-                Add Set
+                <CirclePlus size={23}/>
               </button>
             </div>
           </article>
         ))}
       </section>
+
+    
 
       <section  className="summary" ref = {summaryRef}>
         <h2 className="workout-summary-footer">Workout Summary</h2>
@@ -584,11 +603,14 @@ return (
           </label>
         </div>
       </section>
-      <section>
-        <button className = "app-btn" type = "button"
-        onClick = {topScroll} >
-          ⬆
-
+      <section className="scroll-top-area">
+        <button
+          className = "scroll-top-button"
+          type = "button"
+          onClick = {topScroll}
+          aria-label="Back to top"
+        >
+          <CircleArrowUp size={34}/>
         </button>
       </section>
       </div>
