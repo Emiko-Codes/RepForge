@@ -163,10 +163,7 @@
   border-bottom: none; /*removes the ine for the last workout*/
   padding-bottom: 0;
 }
-.recent-date,
-.recent-dumbbell {
- 
-}
+
 .repforgeai-section{
     flex: 1 1 auto;
     min-height: 0;
