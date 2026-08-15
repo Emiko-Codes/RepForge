@@ -1,10 +1,7 @@
 import "./ProfilePage.css";
 import {
   UserRound,
-  Monitor,
-  Shield,
   LogOut,
-  ChevronRight,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +9,15 @@ function ProfilePage() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [created, setCreated] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
   useEffect(() =>{
       async function getUserInfo(){
       try{  
+        setLoading(true);
+        setError("");
         const token = localStorage.getItem("repforgeToken");
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/profile/info`, { // gets all the info as a text first 
           headers: {
@@ -28,6 +29,7 @@ function ProfilePage() {
         const data = await response.json(); // convert from JSON text to a javascript object
 
         if (!response.ok){
+          setError(data.message || "Could not load profile info.");
           return;
         }
 
@@ -37,6 +39,9 @@ function ProfilePage() {
       }
       catch(error){
         console.log(error);
+        setError("Could not connect to backend.");
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -79,56 +84,19 @@ function ProfilePage() {
           </div>
 
           <div className="profile-overview-text">
-            <h3>{username}</h3>
-            <p>{email}</p>
-            <p>Member since {formatWorkoutDate(created)}</p>
+            {loading && <p className="profile-status">Loading profile...</p>}
+            {!loading && error && <p className="profile-error">{error}</p>}
+            {!loading && !error && (
+              <>
+                <h3>{username}</h3>
+                <p>{email}</p>
+                <p>Member since {formatWorkoutDate(created)}</p>
+              </>
+            )}
           </div>
         </section>
 
-        <section className="profile-settings-card">
-          <h2 className = "settings-header">Settings</h2>
-
-          <div className="profile-settings-list">
-            <button className="profile-setting-row" type="button">
-              <span className="profile-setting-icon">
-                <UserRound size={26} />
-              </span>
-
-              <span className="profile-setting-text">
-                <span>Account Information</span>
-                <small>Update your personal details</small>
-              </span>
-
-              <ChevronRight size={24} />
-            </button>
-
-            <button className="profile-setting-row" type="button">
-              <span className="profile-setting-icon">
-                <Monitor size={26} />
-              </span>
-
-              <span className="profile-setting-text">
-                <span>App Appearance</span>
-                <small>Customize light or dark mode</small>
-              </span>
-
-              <ChevronRight size={24} />
-            </button>
-
-            <button className="profile-setting-row" type="button">
-              <span className="profile-setting-icon">
-                <Shield size={26} />
-              </span>
-
-              <span className="profile-setting-text">
-                <span>Privacy & Security</span>
-                <small>Manage your privacy and security settings</small>
-              </span>
-
-              <ChevronRight size={24} />
-            </button>
-          </div>
-        </section>
+        
 
         <section className="profile-logout-card">
           <h2 className="logout-header">Log Out</h2>

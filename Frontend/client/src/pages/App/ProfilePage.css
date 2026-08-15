@@ -96,6 +96,14 @@
     line-height: 1.2;
     margin: 0;
 }
+.profile-overview-text .profile-status,
+.profile-overview-text .profile-error {
+    color: #68778d;
+    font-weight: 600;
+}
+.profile-overview-text .profile-error {
+    color: #b42318;
+}
 .profile-settings-card,
 .profile-logout-card{
     padding: 20px 30px;

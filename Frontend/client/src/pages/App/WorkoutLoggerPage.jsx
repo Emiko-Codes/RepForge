@@ -71,11 +71,13 @@ const defaultWorkout = {
 
 function WorkoutLoggerPage() {
 const [workout, setWorkout] = useState(defaultWorkout);
-const [, setMessage] = useState("React state is working."); // // React state: stores the current workout and message; use setWorkout/setMessage to update the page when the user makes changes.
+const [message, setMessage] = useState(""); // React state: stores save/status messages that should be shown on the page.
 const [selectedWorkoutDay, setSelectedWorkoutDay] = useState(workoutDay[0]);
 const [duration, setDuration] = useState(0); // Stores how many seconds have passed
 const [timerRunning, setTimerRunning] = useState(false); // Stores whether the timer should currently be counting
 const [, setFinishedDuration] = useState(0);
+const [saving, setSaving] = useState(false);
+const [saveError, setSaveError] = useState("");
 const summaryRef = useRef(null);
 const topRef = useRef(null);
 const summary = useMemo(() => { // useMemo so summary only updates when the workout is updated.
@@ -272,6 +274,9 @@ function topScroll (){
 
 async function saveFullWorkoutToBackend() {
   try {
+    setSaving(true);
+    setMessage("");
+    setSaveError("");
     const token = localStorage.getItem("repforgeToken");
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts`, {
@@ -290,22 +295,24 @@ async function saveFullWorkoutToBackend() {
     const data = await response.json();
 
     if (!response.ok) {
-      setMessage(data.message || "Could not save workout.");
+      setSaveError(data.message || "Could not save workout.");
       return;
     }
 
     setMessage(`Workout saved. ID: ${data.workoutId}`);
   } catch (error) {
     console.log(error);
-    setMessage("Could not connect to backend.");
+    setSaveError("Could not connect to backend.");
+  } finally {
+    setSaving(false);
   }
  
 }
- function finishWorkout(){
+ async function finishWorkout(){
     setTimerRunning(false);
     setFinishedDuration(duration);
 
-    saveFullWorkoutToBackend();
+    await saveFullWorkoutToBackend();
   }
 
 return (
@@ -323,13 +330,22 @@ return (
                 className="finish-workout-button"
                 type="button"
                 onClick ={timerRunning ? finishWorkout : startTimer}
+                disabled={saving}
               >
                 {timerRunning ? <CheckCircle2 size ={20}/> : <CirclePlus size ={20}/>}
-                {timerRunning ? "Finish Workout" : "Start Workout"}
+                {saving ? "Saving..." : timerRunning ? "Finish Workout" : "Start Workout"}
               </button>
             </div>
           
       </header>
+
+      {(saving || saveError || message) && (
+        <section className="workout-feedback">
+          {saving && <p>Saving workout...</p>}
+          {!saving && saveError && <p className="workout-feedback-error">{saveError}</p>}
+          {!saving && !saveError && message && <p>{message}</p>}
+        </section>
+      )}
 
       <section className ="header-navs">
         <div className="header-navs-left">

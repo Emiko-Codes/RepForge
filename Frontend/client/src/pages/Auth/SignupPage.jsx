@@ -14,35 +14,46 @@ const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
 const [message, setMessage] = useState("");
 const [confirmPassword, setConfirmPassword] = useState("");
+const [loading, setLoading] = useState(false);
 const navigate = useNavigate();
 
  async function handleSignup(event){
   event.preventDefault();
+  setMessage("");
   if (password !== confirmPassword) {
   setMessage("Passwords do not match.");
   return;
 }
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, { //structure is fetch (where to send the request, how to send the request
-    method: "POST",
-    headers: {
-      "Content-type" : "application/json"
-    },
-    body: JSON.stringify({
-      username,
-      email,
-      password
-    })  
-  });
-  const data = await response.json();
+  setLoading(true);
 
-  if (!response.ok){
-    setMessage(data.message || "Sign up failed")
-    return;
-  }
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, { //structure is fetch (where to send the request, how to send the request
+      method: "POST",
+      headers: {
+        "Content-type" : "application/json"
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password
+      })  
+    });
+    const data = await response.json();
+
+    if (!response.ok){
+      setMessage(data.message || "Sign up failed")
+      return;
+    }
 
     localStorage.setItem("repforgeToken", data.token);
 
     navigate("/login");
+  } catch (error) {
+    console.log(error);
+    setMessage("Could not connect to backend.");
+  } finally {
+    setLoading(false);
+  }
  }
 
   return (
@@ -126,8 +137,8 @@ const navigate = useNavigate();
             </div>
               {message && <p className="sign-up-message">{message}</p> //If there is an error/success message, display it. If not, display nothing.
               }   
-            <button className="signup-button" type="submit">
-              Sign Up
+            <button className="signup-button" type="submit" disabled={loading}>
+              {loading ? "Creating account..." : "Sign Up"}
             </button>
           </form>
 

@@ -66,6 +66,17 @@ background: white;
      max-width: 1400px;
      margin: 0 auto;
 }
+.details-status,
+.details-error {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    color: #68778d;
+    font-weight: 600;
+}
+.details-error {
+    color: #b42318;
+}
 .exercise-details-list{
     display: flex;
     flex-direction: column;

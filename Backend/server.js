@@ -329,9 +329,9 @@ app.get("/api/workouts/:id", requireAuth, async (req, res) => { // Get one full 
         notes,
         created_at
       FROM workouts
-      WHERE id = $1
+      WHERE id = $1 AND user_id = $2
       `,
-      [workoutId] // Replaces $1 with the workout ID
+      [workoutId, req.userId] // Replaces $1 with workout ID and $2 with the logged-in user's ID. use req so no random user can access another users info if they have the workout id
     );
 
     if (workoutResult.rows.length === 0) { // Check whether the workout exists
@@ -435,37 +435,6 @@ app.get("/api/stats/recent-workouts", requireAuth, async (req, res) => {
   }
 });
 
-app.post("/api/workouts/basic", async (req, res) => {
-  try {
-    const { title, date, workoutDay, notes } = req.body;
-
-    if (!title || !date) {
-      return res.status(400).json({
-        message: "Title and date are required."
-      });
-    }
-
-    const result = await pool.query(
-      `
-      INSERT INTO workouts (title, workout_date, workout_day, notes)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *
-      `,
-      [title, date, workoutDay, notes]
-    );
-
-    res.status(201).json({
-      message: "Workout title/date saved.",
-      workout: result.rows[0]
-    });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      message: "Could not save workout."
-    });
-  }
-});
 app.get("/api/weekly-volume", requireAuth, async (req, res) =>{
   try{
   const result = await pool.query(
@@ -620,16 +589,35 @@ app.post("/api/workouts", requireAuth, async (req, res) => { // Runs when React 
     client.release(); // Returns the borrowed connection to the pool
   }
 });
-app.post("/api/workouts/test", (req, res) =>{
-    const workout = req.body
-    console.log("workout recieved from react:")
-    console.log("workout");
+app.delete("/api/workouts/:id", requireAuth, async (req, res) => {
+  try {
+    const workoutId = req.params.id;
 
-    res.status(201).json({ //status code 201 means the request succeeded and a new resource was created or accepted as newly created.
-        message: "workout received by backend", 
-        workout
+    const result = await pool.query(
+      `
+      DELETE FROM workouts
+      WHERE id = $1 AND user_id = $2
+      RETURNING id
+      `,
+      [workoutId, req.userId]
+    );
 
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        message: "Workout not found."
+      });
+    }
+
+    res.json({
+      message: "Workout deleted."
     });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Could not delete workout."
+    });
+  }
 });
 
 app.listen(PORT, () => {   //is a callback function that runs once the server has successfully started listening.

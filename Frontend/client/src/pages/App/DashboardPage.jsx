@@ -31,16 +31,25 @@ function DashboardPage() {
   const [recenthistory, setRecentHistory] = useState([]);
   const [weeklyvolume, setWeeklyVolume] = useState("");
   const [weeklyWorkoutCount, setWeeklyWorkoutCount] = useState(0);
+  const [recentLoading, setRecentLoading] = useState(true);
+  const [recentError, setRecentError] = useState("");
+  const [weeklyVolumeLoading, setWeeklyVolumeLoading] = useState(true);
+  const [weeklyVolumeError, setWeeklyVolumeError] = useState("");
+  const [weeklyWorkoutCountLoading, setWeeklyWorkoutCountLoading] = useState(true);
+  const [weeklyWorkoutCountError, setWeeklyWorkoutCountError] = useState("");
   
   const [aiQuestion, setAiQuestion] = useState("");
   const [aiReply, setAiReply] = useState(
     "Hi! I'm your AI Coach. I can help you analyze your training, volume, and recovery."
   );
   const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
 
   useEffect(() => {
     async function getRecentHistory() {
       try {
+        setRecentLoading(true);
+        setRecentError("");
         const token = localStorage.getItem("repforgeToken");
 
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/stats/recent-workouts`, {
@@ -52,12 +61,16 @@ function DashboardPage() {
         const data = await response.json();
 
         if (!response.ok) { 
+          setRecentError(data.message || "Could not load recent workouts.");
           return;
         }
 
         setRecentHistory(data.recentWorkouts);
       } catch (error) {
         console.log(error);
+        setRecentError("Could not connect to backend.");
+      } finally {
+        setRecentLoading(false);
       }
     }
 
@@ -70,6 +83,7 @@ async function askRepForgeAi(questionText = aiQuestion) {
 
   try {
     setAiLoading(true);
+    setAiError("");
 
     const token = localStorage.getItem("repforgeToken");
 
@@ -87,7 +101,7 @@ async function askRepForgeAi(questionText = aiQuestion) {
     const data = await response.json();
 
     if (!response.ok) {
-      setAiReply(data.message || "RepForge AI could not answer right now.");
+      setAiError(data.message || "RepForge AI could not answer right now.");
       return;
     }
 
@@ -95,7 +109,7 @@ async function askRepForgeAi(questionText = aiQuestion) {
     setAiQuestion("");
   } catch (error) {
     console.log(error);
-    setAiReply("Could not connect to RepForge AI.");
+    setAiError("Could not connect to RepForge AI.");
   } finally {
     setAiLoading(false);
   }
@@ -103,6 +117,8 @@ async function askRepForgeAi(questionText = aiQuestion) {
   useEffect(() =>{
     async function getWeeklyVolume(){
       try{
+      setWeeklyVolumeLoading(true);
+      setWeeklyVolumeError("");
       const token = localStorage.getItem("repforgeToken");
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/weekly-volume`, {
         headers: {
@@ -112,12 +128,16 @@ async function askRepForgeAi(questionText = aiQuestion) {
         const data = await response.json();
 
         if (!response.ok){
-          return "could not get weekly volume"
+          setWeeklyVolumeError(data.message || "Could not get weekly volume.");
+          return;
         }
         setWeeklyVolume(data.weeklyvolume);
       }
       catch(error){
         console.log(error);
+        setWeeklyVolumeError("Could not connect to backend.");
+      } finally {
+        setWeeklyVolumeLoading(false);
       }
     }
 
@@ -127,6 +147,8 @@ async function askRepForgeAi(questionText = aiQuestion) {
   useEffect(() => {
     async function getWeeklyWorkoutCount() {
       try {
+        setWeeklyWorkoutCountLoading(true);
+        setWeeklyWorkoutCountError("");
         const token = localStorage.getItem("repforgeToken");
 
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/weekly-workout-count`, {
@@ -138,12 +160,16 @@ async function askRepForgeAi(questionText = aiQuestion) {
         const data = await response.json();
 
         if (!response.ok) {
+          setWeeklyWorkoutCountError(data.message || "Could not load workout count.");
           return;
         }
 
         setWeeklyWorkoutCount(data.weeklyWorkoutCount);
       } catch (error) {
         console.log(error);
+        setWeeklyWorkoutCountError("Could not connect to backend.");
+      } finally {
+        setWeeklyWorkoutCountLoading(false);
       }
     }
 
@@ -163,8 +189,14 @@ async function askRepForgeAi(questionText = aiQuestion) {
               <article className="this-week">
                 <div className="this-week-left">
                   <p> This Week</p>
-                  <span className="this-week-value">{weeklyWorkoutCount}</span>
-                  <p className="dash-sub-text"> Workouts</p>
+                  <span className="this-week-value">
+                    {weeklyWorkoutCountLoading ? "..." : weeklyWorkoutCountError ? "--" : weeklyWorkoutCount}
+                  </span>
+                  {weeklyWorkoutCountError ? (
+                    <p className="dashboard-error">{weeklyWorkoutCountError}</p>
+                  ) : (
+                    <p className="dash-sub-text"> Workouts</p>
+                  )}
                   
                 </div> 
                 <div className = "this-week-right">
@@ -176,8 +208,14 @@ async function askRepForgeAi(questionText = aiQuestion) {
               <article className="weekly-volume">
                 <div className="weekly-volume-left">
                   <p>Weekly Volume</p>
-                  <span className = "weekly-volume-value">{weeklyvolume}</span>
-                  <p className="dash-sub-text">lbs</p>
+                  <span className = "weekly-volume-value">
+                    {weeklyVolumeLoading ? "..." : weeklyVolumeError ? "--" : Number(weeklyvolume || 0).toLocaleString()}
+                  </span>
+                  {weeklyVolumeError ? (
+                    <p className="dashboard-error">{weeklyVolumeError}</p>
+                  ) : (
+                    <p className="dash-sub-text">lbs</p>
+                  )}
 
                 </div> 
                 <div className = "weekly-volume-right">
@@ -196,7 +234,12 @@ async function askRepForgeAi(questionText = aiQuestion) {
                 </div>
 
                 <div className="recent-workouts-list">
-                  {recenthistory.map((workout) => (
+                  {recentLoading && <p className="dashboard-status">Loading recent workouts...</p>}
+                  {!recentLoading && recentError && <p className="dashboard-error">{recentError}</p>}
+                  {!recentLoading && !recentError && recenthistory.length === 0 && (
+                    <p className="dashboard-status">No recent workouts yet.</p>
+                  )}
+                  {!recentLoading && !recentError && recenthistory.map((workout) => (
                     <Link key={workout.id} to={`/history/${workout.id}`} className="recent-workout-row">
                       <CalendarDays size={22} />
                       <span>{workout.workout_day}</span>
@@ -218,17 +261,17 @@ async function askRepForgeAi(questionText = aiQuestion) {
                  <div className="repforgeai-message-box">
                     <div className="repforgeai-message"> 
                       <Sparkles className="sparkles-icon" size = {20}/>
-                      <p className="default-message">{aiLoading ? "Thinking..." : aiReply}</p>
+                      <p className="default-message">{aiLoading ? "Thinking..." : aiError || aiReply}</p>
                         <div className="Suggested-Prompt">
-                          <button type="ai-button" onClick={() => askRepForgeAi("Suggest my next workout")}>
+                          <button type="button" disabled={aiLoading} onClick={() => askRepForgeAi("Suggest my next workout")}>
                             Suggest next workout <ChevronRight size={22} />
                           </button>
 
-                          <button type="ai-button" onClick={() => askRepForgeAi("Review my weekly volume")}>
+                          <button type="button" disabled={aiLoading} onClick={() => askRepForgeAi("Review my weekly volume")}>
                             Review weekly volume <ChevronRight size={22} />
                           </button>
 
-                          <button type="ai-button" onClick={() => askRepForgeAi("Give me recovery tips")}>
+                          <button type="button" disabled={aiLoading} onClick={() => askRepForgeAi("Give me recovery tips")}>
                             Recovery tips <ChevronRight size={22} />
                           </button>
                         </div>
@@ -239,6 +282,7 @@ async function askRepForgeAi(questionText = aiQuestion) {
                     >
                       <input type="text"value={aiQuestion} onChange={(event) => setAiQuestion(event.target.value)}
                         placeholder="Ask about workouts, volume, or recovery..."
+                        disabled={aiLoading}
                       />
 
                       <button type="submit" disabled={aiLoading}>

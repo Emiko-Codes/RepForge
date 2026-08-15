@@ -10,32 +10,42 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function handleLogin(event) {
     event.preventDefault(); //prevents the 
+    setLoading(true);
+    setMessage("");
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, { // structure is fetch (where to send the request, how to send the request
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    });
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, { // structure is fetch (where to send the request, how to send the request
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      setMessage(data.message || "Login failed");
-      return;
+      if (!response.ok) {
+        setMessage(data.message || "Login failed");
+        return;
+      }
+
+      localStorage.setItem("repforgeToken", data.token);
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+      setMessage("Could not connect to backend.");
+    } finally {
+      setLoading(false);
     }
-
-    localStorage.setItem("repforgeToken", data.token);
-
-    navigate("/dashboard");
   }
 	  
   return (
@@ -92,8 +102,9 @@ function LoginPage() {
             <div className="login-button-area">
               <button className="login-button" 
                 type = "submit"
+                disabled={loading}
               >
-                Log In
+                {loading ? "Logging in..." : "Log In"}
               </button>
             </div> 
           </form>

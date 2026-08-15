@@ -5,16 +5,20 @@ import {
   Dumbbell,
   CalendarDays,
   Layers3,
-  MoreVertical,
+  Trash2,
 } from "lucide-react";
 
 function HistoryPage() {
   const [history, setHistory] = useState([]);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function loadWorkoutHistory() {
       try {
+        setLoading(true);
+        setError("");
         const token = localStorage.getItem("repforgeToken");
         
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts`, {
@@ -27,7 +31,7 @@ function HistoryPage() {
         const data = await response.json();
 
         if (!response.ok) {
-          setMessage(data.message || "Could not load history.");
+          setError(data.message || "Could not load history.");
           return;
         }
 
@@ -35,7 +39,9 @@ function HistoryPage() {
         setMessage("View and revisit your past training sessions");
       } catch (error) {
         console.log(error);
-        setMessage("Could not connect to backend.");
+        setError("Could not connect to backend.");
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -61,6 +67,34 @@ function formatWorkoutDate(workoutDate) {
     year: "numeric",  
   });
 }
+async function deleteSavedWorkout(workoutId) {
+  try {
+    const token = localStorage.getItem("repforgeToken");
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts/${workoutId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setMessage(data.message || "Could not delete workout.");
+      return;
+    }
+
+    setHistory((currentHistory) => // currentHistory is the latest history state before React updates it.
+      currentHistory.filter((savedWorkout) => savedWorkout.id !== workoutId) // filter returns a new array without the deleted workout.
+    );
+
+    setMessage(data.message);
+  } catch (error) {
+    console.log(error);
+    setMessage("Could not connect to backend.");
+  }
+}
   return (
     <main className="history-page">
       <div className="page-inner">
@@ -69,7 +103,12 @@ function formatWorkoutDate(workoutDate) {
         <p className="top-message">{message}</p>
 
         <div className="history-list">
-          {history.map((workout) => (
+          {loading && <p className="history-status">Loading workout history...</p>}
+          {!loading && error && <p className="history-error">{error}</p>}
+          {!loading && !error && history.length === 0 && (
+            <p className="history-status">No workouts logged yet.</p>
+          )}
+          {!loading && !error && history.map((workout) => (
             <article className="history-card" key={workout.id}>{/* Left blue icon box */}
             
               <div className="history-card-icon">
@@ -117,9 +156,10 @@ function formatWorkoutDate(workoutDate) {
               <button
                 className="history-menu-button"
                 type="button"
-                aria-label="Workout options"
+                onClick={() => deleteSavedWorkout(workout.id)}
+                aria-label="Delete workout"
               >
-                <MoreVertical size={25} />
+                <Trash2 size={25} />
               </button>
             </article>
           ))}

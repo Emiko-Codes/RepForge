@@ -11,7 +11,8 @@ function DetailsPage() {
   const { id } = useParams();
 
   const [workout, setWorkout] = useState(null);
-  const [message, setMessage] = useState("Loading workout...");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
     // Whenever this DetailsPage opens,
     // or whenever the workout ID changes,
@@ -19,6 +20,8 @@ function DetailsPage() {
     useEffect(() => {   // whenever the details page opens or whenever the workout id changes, get that workout from the backend.
       async function loadWorkoutDetails() {
         try {
+          setLoading(true);
+          setError("");
           const token = localStorage.getItem("repforgeToken");
           const response = await fetch(
             `${import.meta.env.VITE_API_URL}/api/workouts/${id}`, {
@@ -31,15 +34,16 @@ function DetailsPage() {
           const data = await response.json();
 
           if (!response.ok) {
-            setMessage(data.message || "Could not load workout.");
+            setError(data.message || "Could not load workout.");
             return;
           }
 
           setWorkout(data.workout);
-          setMessage("");
         } catch (error) {
           console.log(error);
-          setMessage("Could not connect to backend.");
+          setError("Could not connect to backend.");
+        } finally {
+          setLoading(false);
         }
       }
 
@@ -67,10 +71,26 @@ function DetailsPage() {
     });
   }
 
+  if (loading) {
+    return (
+      <main className="details-page"> 
+        <p className="details-status">Loading workout...</p> 
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="details-page"> 
+        <p className="details-error">{error}</p> 
+      </main>
+    );
+  }
+
   if (!workout) { // if there is no workout, then display an error message.
     return (
       <main className="details-page"> 
-        <p>{message}</p> 
+        <p className="details-error">Workout not found.</p> 
       </main>
     );
   }

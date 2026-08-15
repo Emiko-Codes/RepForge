@@ -185,6 +185,20 @@ button:hover {
   background: whitesmoke;
   padding: 20px;
 }
+.workout-feedback {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #68778d;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+.workout-feedback p {
+  margin: 0;
+}
+.workout-feedback-error {
+  color: #b42318;
+}
 .title-text 
 {
   color: #17345c;
