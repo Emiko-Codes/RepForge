@@ -12,33 +12,33 @@ function HistoryPage() {
   const [history, setHistory] = useState([]);
   const [message, setMessage] = useState("");
 
-  async function loadWorkoutHistory() {
-    try {
-      const token = localStorage.getItem("repforgeToken");
-      
-   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts`, {
-   method: "GET",
-   headers: {
-    Authorization: `Bearer ${token}` // used to confirm who the user is first before displaying the workout history
-    }
-});1
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage(data.message || "Could not load history.");
-        return;
-      }
-
-      setHistory(data.workouts);
-      setMessage("View and revisit your past training sessions");
-    } catch (error) {
-      console.log(error);
-      setMessage("Could not connect to backend.");
-    }
-  }
-
   useEffect(() => {
+    async function loadWorkoutHistory() {
+      try {
+        const token = localStorage.getItem("repforgeToken");
+        
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workouts`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}` // used to confirm who the user is first before displaying the workout history
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setMessage(data.message || "Could not load history.");
+          return;
+        }
+
+        setHistory(data.workouts);
+        setMessage("View and revisit your past training sessions");
+      } catch (error) {
+        console.log(error);
+        setMessage("Could not connect to backend.");
+      }
+    }
+
     loadWorkoutHistory();
   }, []);
 function formatWorkoutDate(workoutDate) {

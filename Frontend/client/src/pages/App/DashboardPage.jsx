@@ -5,7 +5,6 @@ import {
   ArrowRight,
   CalendarDays,
   ChevronRight,
-  MessageCircle,
   Sparkles,
   Send,
 } from "lucide-react";
@@ -101,52 +100,53 @@ async function askRepForgeAi(questionText = aiQuestion) {
     setAiLoading(false);
   }
 }
-async function getWeeklyVolume(){
-    try{
-    const token = localStorage.getItem("repforgeToken");
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/weekly-volume`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        }
-      });
-      const data = await response.json();
-
-      if (!response.ok){
-        return "could not get weekly volume"
-      }
-      setWeeklyVolume(data.weeklyvolume);
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
   useEffect(() =>{
+    async function getWeeklyVolume(){
+      try{
+      const token = localStorage.getItem("repforgeToken");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/weekly-volume`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          }
+        });
+        const data = await response.json();
+
+        if (!response.ok){
+          return "could not get weekly volume"
+        }
+        setWeeklyVolume(data.weeklyvolume);
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+
     getWeeklyVolume();
   }, []);
 
-  async function getWeeklyWorkoutCount() {
-    try {
-      const token = localStorage.getItem("repforgeToken");
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/weekly-workout-count`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        return;
-      }
-
-      setWeeklyWorkoutCount(data.weeklyWorkoutCount);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
+    async function getWeeklyWorkoutCount() {
+      try {
+        const token = localStorage.getItem("repforgeToken");
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/weekly-workout-count`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          return;
+        }
+
+        setWeeklyWorkoutCount(data.weeklyWorkoutCount);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     getWeeklyWorkoutCount();
   }, []);
 

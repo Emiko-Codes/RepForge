@@ -9,39 +9,37 @@ import {
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 function ProfilePage() {
-    const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [created, setCreated] = useState("");
     const navigate = useNavigate();
-    async function getUserInfo(){
-    try{  
-      const token = localStorage.getItem("repforgeToken");
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/profile/info`, { // gets all the info as a text first 
-        headers: {
-          "Content-Type":"application/json", // " " is needed cause of the hyphen
-          Authorization: `Bearer ${token}`
-        }
-      });
 
-      const data = await response.json(); // convert from JSON text to a javascript object
-
-      if (!response.ok){
-        setMessage(data.message); // if this block runs, then data.message is simply the backends (500) error state's component defined as message: for that route only
-        return;
-      }
-
-      setEmail(data.email);
-      setUsername(data.username);
-      setCreated(data.created);
-    }
-    catch(error){
-      console.log(error);
-      setMessage("could not retrieve users info")
-      
-    }
-  }
   useEffect(() =>{
+      async function getUserInfo(){
+      try{  
+        const token = localStorage.getItem("repforgeToken");
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/profile/info`, { // gets all the info as a text first 
+          headers: {
+            "Content-Type":"application/json", // " " is needed cause of the hyphen
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json(); // convert from JSON text to a javascript object
+
+        if (!response.ok){
+          return;
+        }
+
+        setEmail(data.email);
+        setUsername(data.username);
+        setCreated(data.created);
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+
       getUserInfo();
     }, []);
   function formatWorkoutDate(created){

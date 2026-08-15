@@ -71,11 +71,11 @@ const defaultWorkout = {
 
 function WorkoutLoggerPage() {
 const [workout, setWorkout] = useState(defaultWorkout);
-const [message, setMessage] = useState("React state is working."); // // React state: stores the current workout and message; use setWorkout/setMessage to update the page when the user makes changes.
+const [, setMessage] = useState("React state is working."); // // React state: stores the current workout and message; use setWorkout/setMessage to update the page when the user makes changes.
 const [selectedWorkoutDay, setSelectedWorkoutDay] = useState(workoutDay[0]);
 const [duration, setDuration] = useState(0); // Stores how many seconds have passed
 const [timerRunning, setTimerRunning] = useState(false); // Stores whether the timer should currently be counting
-const [finishedDuration,setFinishedDuration] = useState(0);
+const [, setFinishedDuration] = useState(0);
 const summaryRef = useRef(null);
 const topRef = useRef(null);
 const summary = useMemo(() => { // useMemo so summary only updates when the workout is updated.
@@ -264,66 +264,6 @@ function topScroll (){
     behavior : "smooth",
     block: "start"
   });
-}
-function saveToBrowser(){
-  localStorage.setItem("reactWorkout", JSON.stringify(workout)); //JSON.Stringify is the syntax for saving react files to the browser
-  setMessage("workout saved in browser");
-}
-function loadFromBrowser(){
-  const savedWorkout = localStorage.getItem("reactWorkout");
-
-  if (!savedWorkout){
-    setMessage("No workout Saved")
-    return{
-      ...workout
-    }
-  }
-  setWorkout(JSON.parse(savedWorkout));// JSON.parse is used to change from string to a JSON readable file.
-  setMessage("Workout loaded from browser");
-}
-
-async function saveToBackend() { // Creates an asynchronous function so it can wait for the backend request and response.
-  try { // Runs code that could fail and sends any thrown error to the catch block.
-
-    const response = await fetch( // Sends an HTTP request and waits until the backend responds.
-      `${import.meta.env.VITE_API_URL}/api/workouts/test`, // Combines the backend base URL with the backend route path.
-      {
-        method: "POST", // Uses the POST HTTP method because workout data is being sent to the backend.
-
-        headers: { // Provides information about the format of the request.
-          "Content-Type": "application/json" // Tells the backend that the request body contains JSON data.
-        },
-
-        body: JSON.stringify({ // Converts the JavaScript object into JSON text so it can be sent through HTTP.
-          ...workout, // Copies all properties from the existing workout object into this new object.
-          workoutDay: selectedWorkoutDay // Adds the selected workout day to the object being sent.
-        })
-      }
-    );
-
-    const data = await response.json(); // Reads the backend's JSON response and converts it into a JavaScript object.
-
-    if (!response.ok) { // Checks whether the backend returned an unsuccessful HTTP status code.
-      setMessage("Backend save failed."); // Updates the React message state to show that the backend rejected or failed the request.
-      console.log(data); // Prints the backend's response data in the browser console for debugging.
-      return; // Stops the function so the success code below does not run.
-    }
-
-    setMessage(data.message); // Displays the success message returned by the backend.
-    console.log("Backend response:", data); // Prints the complete successful backend response in the browser console.
-    /*
-    since these three match:
-    Backend address: http://localhost:5001
-    HTTP method: POST
-    Route path: /api/workouts/test , this post request runs the "default" post function in the server.js file.
-    */
-
-  } catch (error) { // Runs when the request cannot complete normally or another error is thrown inside the try block.
-    console.log(error); // Prints the actual error in the browser console for debugging.
-    setMessage("Could not connect to backend."); // Updates the React message when the frontend cannot complete the connection.
-  }
-
- 
 }
  function convertDisplayDateToInputDate(displayDate) {
   const parsedDate = new Date(displayDate);

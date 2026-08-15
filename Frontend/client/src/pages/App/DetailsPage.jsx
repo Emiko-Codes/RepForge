@@ -6,10 +6,6 @@ import{
   CircleCheck,
   CircleX,
   NotebookPen,
-  Dumbbell,
-  Layers,
-  Weight,
-  Clock3,
 }from "lucide-react";
 function DetailsPage() {
   const { id } = useParams();
@@ -17,30 +13,36 @@ function DetailsPage() {
   const [workout, setWorkout] = useState(null);
   const [message, setMessage] = useState("Loading workout...");
 
-  async function loadWorkoutDetails() {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/workouts/${id}`
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage(data.message || "Could not load workout.");
-        return;
-      }
-
-      setWorkout(data.workout);
-      setMessage("");
-    } catch (error) {
-      console.log(error);
-      setMessage("Could not connect to backend.");
-    }
-  }
     // Whenever this DetailsPage opens,
     // or whenever the workout ID changes,
     // get that workout from the backend.
     useEffect(() => {   // whenever the details page opens or whenever the workout id changes, get that workout from the backend.
+      async function loadWorkoutDetails() {
+        try {
+          const token = localStorage.getItem("repforgeToken");
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/workouts/${id}`, {
+              headers:{
+                Authorization: `Bearer ${token}`
+              }
+            }
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            setMessage(data.message || "Could not load workout.");
+            return;
+          }
+
+          setWorkout(data.workout);
+          setMessage("");
+        } catch (error) {
+          console.log(error);
+          setMessage("Could not connect to backend.");
+        }
+      }
+
       loadWorkoutDetails();
     }, [id]);
 

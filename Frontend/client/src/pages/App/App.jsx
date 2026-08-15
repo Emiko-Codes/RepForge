@@ -13,6 +13,15 @@ import DetailsPage from "./DetailsPage.jsx";
 import LoginPage from "../Auth/LoginPage.jsx";
 import SignupPage from "../Auth/SignupPage.jsx";
 import "./App.css";
+function ProtectedRoute({ children }) { // children is whatever that is inside ProtectedRoute
+  const token = localStorage.getItem("repforgeToken");
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children; //If the user is logged in, show the page that was placed inside the ProtectedRoute.
+}
 
 function App() {
   return (
@@ -33,6 +42,7 @@ function App() {
     
       <Route path ="/*"
       element = {
+      <ProtectedRoute>  
         <div className="sidebar-layout">
           <Sidebar  
           //sidebar called here as <Sidebar/> so that it stays on the page no matter what, but the the rest of the page changes depending on if the browser URL matches the correct route path
@@ -67,6 +77,7 @@ function App() {
             </Routes>
           </div>
         </div>
+        </ProtectedRoute>
       }
       />
     </Routes>

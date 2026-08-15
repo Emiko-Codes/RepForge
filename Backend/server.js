@@ -315,7 +315,7 @@ app.get("/api/workouts", requireAuth, async (req, res) =>{
 });
 
 
-app.get("/api/workouts/:id", async (req, res) => { // Get one full workout using its ID
+app.get("/api/workouts/:id", requireAuth, async (req, res) => { // Get one full workout using its ID
   const workoutId = req.params.id; // Gets the :id value from the URL
 
   try {
