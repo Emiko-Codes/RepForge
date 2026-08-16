@@ -157,7 +157,7 @@ Set
 ### 1. Clone the repository
 
 ```bash
-git https://github.com/Emiko-Codes/workout-tracker
+git https://github.com/Emiko-Codes/RepForge
 ```
 
 Move into the project:
