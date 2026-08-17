@@ -109,3 +109,51 @@ background: white;
     display: flex;
     gap: 7px;
 }
+
+@media (max-width: 900px){
+    .details-page{
+        padding: 28px 22px 46px;
+    }
+
+    .details-page-inner{
+        max-width: none;
+    }
+
+    .detail-day{
+        font-size: clamp(34px, 10vw, 46px);
+    }
+
+    .details-meta,
+    .display-stat-symbol{
+        /* Mobile metadata wraps instead of forcing one long row. */
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .exercise-details-card{
+        padding: 18px;
+    }
+
+    .details-sets-table{
+        /* Details tables can be wider than phones, so they scroll inside their card. */
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 560px){
+    .details-page{
+        padding: 22px 14px 42px;
+    }
+
+    .exercise-details-list{
+        gap: 14px;
+    }
+
+    .details-sets-table th,
+    .details-sets-table td{
+        padding-inline: 14px;
+    }
+}

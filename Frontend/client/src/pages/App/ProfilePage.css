@@ -227,7 +227,14 @@
 
 @media (max-width: 900px){
     .profile-page{
+        height: auto;
+        min-height: 100svh;
         padding: 18px 22px;
+        overflow: visible;
+    }
+
+    .profile-page-inner{
+        height: auto;
     }
 
     .profile-overview-card{
@@ -240,14 +247,59 @@
         font-size: 34px;
     }
 
+    .profile-page{
+        padding: 22px 14px 42px;
+    }
+
+    .profile-page-inner{
+        gap: 14px;
+    }
+
+    .profile-overview-card,
+    .profile-settings-card,
+    .profile-logout-card{
+        padding: 18px;
+        border-radius: 10px;
+    }
+
     .profile-overview-card{
+        /* Stacking the avatar over the text prevents the profile row from squeezing sideways. */
         flex-direction: column;
         gap: 20px;
+    }
+
+    .profile-avatar{
+        width: 84px;
+        height: 84px;
+    }
+
+    .profile-overview-text h3{
+        font-size: 28px;
+    }
+
+    .profile-setting-row{
+        grid-template-columns: 44px minmax(0, 1fr) 22px;
+        gap: 12px;
+        min-height: 76px;
+    }
+
+    .profile-setting-text span{
+        font-size: 16px;
+    }
+
+    .profile-setting-text small{
+        font-size: 14px;
     }
 
     .profile-logout-row{
         align-items: flex-start;
         flex-direction: column;
+        gap: 16px;
+    }
+
+    .profile-logout-left{
+        align-items: flex-start;
+        gap: 14px;
     }
 
     .profile-logout-button{

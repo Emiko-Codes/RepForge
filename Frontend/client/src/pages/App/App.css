@@ -7,6 +7,7 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   background-color: whitesmoke;
   color: #183153;
+  overflow-x: hidden;
 }
 
 button,
@@ -715,5 +716,118 @@ button:hover {
 
   .exercise-select {
     width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .sidebar-layout {
+    /* Mobile shell: the sidebar becomes a top nav so the page gets the full phone width. */
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+
+  .route-content {
+    /* On mobile the page, not a locked desktop shell, should control scrolling. */
+    height: auto;
+    min-height: 0;
+    overflow-y: visible;
+  }
+
+  .sidebar {
+    /* Sticky keeps navigation available without taking permanent side space. */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: auto;
+    max-height: none;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(7, 19, 33, 0.16);
+  }
+
+  .page {
+    padding: 18px 14px 42px;
+  }
+
+  .page-inner {
+    width: 100%;
+    max-width: none;
+  }
+
+  .header {
+    padding: 0;
+    gap: 14px;
+    background: transparent;
+  }
+
+  .title-text {
+    font-size: clamp(32px, 11vw, 42px);
+    line-height: 1;
+  }
+
+  .header-navs {
+    /* Desktop uses a row; mobile stacks the date, day picker, and duration controls. */
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .header-navs-left,
+  .header-navs-right {
+    align-items: flex-start;
+  }
+
+  .header-navs-left {
+    gap: 12px;
+  }
+
+  .workout-date-ic {
+    font-size: clamp(22px, 7vw, 28px);
+  }
+
+  .workout-day-picker select,
+  .exercise-select {
+    /* Full-width controls are easier to tap and cannot overflow narrow screens. */
+    width: 100%;
+    min-width: 0;
+  }
+
+  .exercise-card {
+    padding: 16px;
+  }
+
+  .exercise-name-input {
+    width: 100%;
+    min-width: 0;
+    font-size: 22px;
+  }
+
+  .exercise-selectors {
+    flex-direction: column;
+  }
+
+  .sets-table {
+    /* Tables are wider than phones, so this allows horizontal scroll inside the table area. */
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sets-table input[type="number"] {
+    min-width: 86px;
+  }
+
+  .summary-stats,
+  .summary-notes {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .summary-notes textarea {
+    width: 100%;
+    min-height: 96px;
   }
 }
