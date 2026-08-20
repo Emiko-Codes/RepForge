@@ -92,16 +92,19 @@ RepForge/
 │   └── package.json
 │
 ├── Frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   └── main.jsx
-│   └── package.json
+│   ├── client/
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   ├── pages/
+│   │   │   ├── index.css
+│   │   │   └── main.jsx
+│   │   ├── package.json
+│   │   ├── vercel.json
+│   │   └── vite.config.js
+│   └── public/
+│       └── screenshots/
 │
-├── Data/
 ├── .gitignore
 └── README.md
 ```
@@ -157,7 +160,7 @@ Set
 ### 1. Clone the repository
 
 ```bash
-git https://github.com/Emiko-Codes/RepForge
+git clone https://github.com/Emiko-Codes/RepForge
 ```
 
 Move into the project:
@@ -191,7 +194,9 @@ Create a `.env` file inside the `Backend` directory.
 ```env
 DATABASE_URL=your_postgresql_connection_string
 JWT_SECRET=your_jwt_secret
-PORT=5000
+OPENAI_API_KEY=your_openai_api_key
+CLIENT_URL=http://localhost:5173
+PORT=5001
 ```
 
 Do not commit the `.env` file to GitHub.
@@ -219,7 +224,7 @@ npm run dev
 Open another terminal and move into the frontend directory:
 
 ```bash
-cd Frontend
+cd Frontend/client
 ```
 
 Install the dependencies:
@@ -232,10 +237,10 @@ npm install
 
 ### 6. Configure frontend environment variables
 
-Create a `.env` file inside the `Frontend` directory.
+Create a `.env` file inside the `Frontend/client` directory.
 
 ```env
-VITE_API_URL=http://localhost:5000
+VITE_API_URL=http://localhost:5001
 ```
 
 For production, this value points to the deployed backend API instead.
@@ -260,6 +265,8 @@ Vite will provide a local development URL in the terminal.
 | -------------- | ---------------------------------------------------- |
 | `DATABASE_URL` | PostgreSQL database connection string                |
 | `JWT_SECRET`   | Secret used to sign and verify authentication tokens |
+| `OPENAI_API_KEY` | API key used by RepForge AI                        |
+| `CLIENT_URL`   | Frontend origin allowed by backend CORS              |
 | `PORT`         | Port used by the Express server                      |
 
 ### Frontend
@@ -398,4 +405,3 @@ Possible future improvements include:
 Software Engineering Student
 
 GitHub: [Emiko-Codes](https://github.com/Emiko-Codes)
-

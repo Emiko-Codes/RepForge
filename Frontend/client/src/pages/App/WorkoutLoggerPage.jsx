@@ -68,11 +68,37 @@ const defaultWorkout = {
     }
   ]
 };
+const workoutDraftKey = "repforgeWorkoutDraft";
+
+function getSavedWorkoutDraft() {
+  // localStorage stores text, so this helper reads the text and turns it back into JavaScript data.
+  const savedDraft = localStorage.getItem(workoutDraftKey);
+
+  if (!savedDraft) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(savedDraft);
+  } catch (error) {
+    // If the saved text ever gets corrupted, remove it so the logger can start fresh instead of crashing.
+    console.log(error);
+    localStorage.removeItem(workoutDraftKey);
+    return null;
+  }
+}
 
 function WorkoutLoggerPage() {
-const [workout, setWorkout] = useState(defaultWorkout);
+const savedWorkoutDraft = getSavedWorkoutDraft();
+const [workout, setWorkout] = useState(() => {
+  // This runs only when the logger first opens. It restores the saved draft if one exists.
+  return savedWorkoutDraft?.workout || defaultWorkout;
+});
 const [message, setMessage] = useState(""); // React state: stores save/status messages that should be shown on the page.
-const [selectedWorkoutDay, setSelectedWorkoutDay] = useState(workoutDay[0]);
+const [selectedWorkoutDay, setSelectedWorkoutDay] = useState(() => {
+  // The workout day is separate state, so it gets saved/restored beside the workout object.
+  return savedWorkoutDraft?.selectedWorkoutDay || workoutDay[0];
+});
 const [duration, setDuration] = useState(0); // Stores how many seconds have passed
 const [timerRunning, setTimerRunning] = useState(false); // Stores whether the timer should currently be counting
 const [, setFinishedDuration] = useState(0);
@@ -102,6 +128,14 @@ const summary = useMemo(() => { // useMemo so summary only updates when the work
     totalVolume
   };
 }, [workout]); //Remember this summary, and only update it when the workout data changes.(syntax for useMemo) 
+
+useEffect(() => {
+  // Whenever the workout draft changes, save the newest version in the browser.
+  localStorage.setItem(workoutDraftKey, JSON.stringify({
+    workout,
+    selectedWorkoutDay
+  }));
+}, [workout, selectedWorkoutDay]);
 
 useEffect(() => {
   if (!timerRunning) {
@@ -195,7 +229,6 @@ function addSet(exerciseId) {
     exercises: updatedExercises
   });
 
-  setMessage("Set added.");
 }
 
 function updateSet(exerciseId, setId, field, value) {
@@ -258,8 +291,6 @@ function deleteSet(exerciseId, setId) {
     ...workout,
     exercises: updatedExercises
   });
-
-  setMessage("Set deleted.");
 }
 function topScroll (){
   topRef.current?.scrollIntoView({
@@ -299,7 +330,8 @@ async function saveFullWorkoutToBackend() {
       return;
     }
 
-    setMessage(`Workout saved. ID: ${data.workoutId}`);
+    localStorage.removeItem(workoutDraftKey); // Once the backend saves the workout, the browser draft is no longer needed.
+    setMessage(`Workout saved`);
   } catch (error) {
     console.log(error);
     setSaveError("Could not connect to backend.");

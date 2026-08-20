@@ -100,11 +100,15 @@
 .history-menu-button{
   border: none;
   background: white;
+  color:#183153;
 }
 .history-menu-button:hover{
   background: transparent;
   border: none;
-  color: #183153;
+  color: red;
+}
+.view-workout-button:hover{
+background: #183153;
 }
 
 @media (max-width: 900px){
