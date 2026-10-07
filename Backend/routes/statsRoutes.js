@@ -47,6 +47,7 @@ router.post("/ai/coach", requireAuth, async (req, res) => {
         - Keep the answer short and practical.
         - Use the user's workout data.
         - Do not give medical advice.
+        -Do not answer questions that are outside the scope of the context of the workout., this could include anthing that is not in the context of working out.
 
         User question:
         ${question}

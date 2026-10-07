@@ -7,7 +7,7 @@ import {
   Trash2,
   CircleArrowUp,
 }from "lucide-react";
-
+import { summarizeWorkout } from "../../utils/summarizeworkout.js";
 
 const muscleGroups = [
   "Chest",
@@ -106,28 +106,10 @@ const [saving, setSaving] = useState(false);
 const [saveError, setSaveError] = useState("");
 const summaryRef = useRef(null);
 const topRef = useRef(null);
-const summary = useMemo(() => { // useMemo so summary only updates when the workout is updated.
-  let totalSets = 0;
-  let doneSets = 0;
-  let totalVolume = 0;
-
-  workout.exercises.forEach((exercise) => {
-    exercise.sets.forEach((set) => {
-      totalSets++;
-      if (set.done) {
-        doneSets++;
-        totalVolume += Number(set.weight) * Number(set.reps);
-      }
-    });
-  });
-
-  return {
-    exercises: workout.exercises.length,
-    totalSets,
-    doneSets,
-    totalVolume
-  };
-}, [workout]); //Remember this summary, and only update it when the workout data changes.(syntax for useMemo) 
+const summary = useMemo(
+  () => summarizeWorkout(workout),
+  [workout]
+);
 
 useEffect(() => {
   // Whenever the workout draft changes, save the newest version in the browser.
