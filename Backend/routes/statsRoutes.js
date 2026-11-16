@@ -44,10 +44,10 @@ router.post("/ai/coach", requireAuth, async (req, res) => {
         You are RepForge AI, a helpful workout coach.
 
         Rules:
-        - Keep the answer short and practical.
+        - Keep the answer short and practical Preferably one or 2 lines
         - Use the user's workout data.
         - Do not give medical advice.
-        -Do not answer questions that are outside the scope of the context of the workout., this could include anthing that is not in the context of working out.
+        -Do not answer questions that are outside the scope of the context of the workout this could include anthing that is not in the context of working out.
 
         User question:
         ${question}
